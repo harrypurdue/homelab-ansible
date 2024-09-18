@@ -1,0 +1,37 @@
+- name: Update Testing Servers
+  gather_facts: false
+  hosts: test_servers
+  tags: test
+
+  tasks:
+    - name: update
+      include_tasks: tasks/package_update_ubuntu.yaml
+    
+    - name: verify
+      include_tasks: tasks/verify/{{verification}}
+      register: verify_result
+      when: verification is defined
+
+    - name: debug
+      ansible.builtin.debug:
+        msg: "{{verify_result}}"
+        verbosity: 1
+
+- name: Update Prod Servers
+  gather_facts: false
+  hosts: prod_servers
+  tags: prod
+
+  tasks:
+    - name: update
+      include_tasks: tasks/package_update_ubuntu.yaml
+    
+    - name: verify
+      include_tasks: tasks/verify/{{verification}}
+      register: verify_result
+      when: verification is defined
+
+    - name: debug
+      ansible.builtin.debug:
+        msg: "{{verify_result}}"
+        verbosity: 1

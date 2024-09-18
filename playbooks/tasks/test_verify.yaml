@@ -1,0 +1,4 @@
+- name: test connectivity 2313123
+  ansible.builtin.setup:
+    gather_subset: date_time
+  register: datetime

@@ -1,0 +1,23 @@
+- name: Update Packages test before 'prod'
+  gather_facts: false
+  hosts: update_staging
+  tags: staging
+
+  tasks:
+    - name: include update task
+      include_tasks: tasks/package_update_ubuntu.yaml
+
+    - name: include reboot task
+      include_tasks: tasks/reboot_if_required.yaml
+
+- name: Update Packages 'prod'
+  gather_facts: false
+  hosts: all !update_staging !ubuntu_zabbix_servers
+  tags: production
+
+  tasks:
+    - name: include update task
+      include_tasks: tasks/package_update_ubuntu.yaml
+
+    - name: include reboot task
+      include_tasks: tasks/reboot_if_required.yaml

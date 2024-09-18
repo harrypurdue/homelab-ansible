@@ -1,0 +1,14 @@
+- name: Homelab Ubuntu Hello World
+  gather_facts: false
+  hosts: ubuntu_servers
+
+  tasks:
+
+    - name: gather facts
+      ansible.builtin.setup:
+        filter: distribution_release
+      register: abc
+
+    - name: display gathered facts
+      ansible.builtin.debug:
+        msg: "{{ abc }}"

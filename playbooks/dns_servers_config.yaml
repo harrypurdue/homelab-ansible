@@ -1,0 +1,54 @@
+- name: dns-01.lab.lan 
+  gather_facts: true
+  hosts: dns-01.lab.lan
+  tags: primary
+  vars_files:
+    - ../vars/records-db.lab.lan.yaml
+
+  tasks:
+  - name: backup named.conf
+    ansible.builtin.fetch:
+      dest: /home/harry/ansible/homelab/backups
+      src: /etc/bind/named.conf
+  
+  - name: copy named.conf file
+    ansible.builtin.template:
+      src: /home/harry/ansible/homelab/templates/dns/named.conf.dns-01.lab.lan
+      dest: /etc/bind/named.conf
+    become: true
+
+  - name: copy forward zone file
+    ansible.builtin.template:
+      src: /home/harry/ansible/homelab/templates/dns/db.lab.lan.j2
+      dest: /etc/bind/db.lab.lan
+    become: true
+
+  - name: copy reverse zone file
+    ansible.builtin.template:
+      src: /home/harry/ansible/homelab/templates/dns/0.0.10.in-addr.arpa
+      dest: /etc/bind/0.0.10.in-addr.arpa
+    become: true
+
+  - name: restart named service
+    ansible.builtin.systemd_service:
+      state: restarted
+      name: named
+    become: true
+
+- name: dns-02.lab.lan 
+  gather_facts: true
+  hosts: dns-02.lab.lan
+  tags: secondary
+
+  tasks:
+  - name: copy named.conf file
+    ansible.builtin.template:
+      src: /home/harry/ansible/homelab/templates/dns/named.conf.dns-02.lab.lan
+      dest: /etc/bind/named.conf
+    become: true
+
+  - name: restart named service
+    ansible.builtin.systemd_service:
+      state: restarted
+      name: named
+    become: true
