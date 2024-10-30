@@ -7,3 +7,4 @@
       ansible.builtin.copy:
         src: ../templates/my_public_key
         dest: /home/harry/.ssh/authorized_keys
+      become: True
