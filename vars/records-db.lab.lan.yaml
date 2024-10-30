@@ -56,3 +56,6 @@ records:
   - name: "lab.lan."
     type: "CAA"
     value: "ca-01.lab.lan"
+  - name: "dhcp-01"
+    type: "A"
+    value: "10.1.0.10"
