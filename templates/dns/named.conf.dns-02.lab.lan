@@ -30,3 +30,13 @@ zone "0.0.10.in-addr.arpa" {
 
 };
 
+zone "1.0.10.in-addr.arpa" {
+    	type secondary;
+    	file "/etc/bind/1.0.10.in-addr.arpa.saved";
+    	
+	primaries {
+		10.0.0.101;
+	};
+
+};
+

@@ -29,3 +29,14 @@ zone "0.0.10.in-addr.arpa" {
 
 };
 
+zone "1.0.10.in-addr.arpa" {
+    	type primary;
+    	file "/etc/bind/1.0.10.in-addr.arpa";
+    	notify yes;
+	allow-transfer {
+		10.0.0.102;
+	};
+
+};
+
+
