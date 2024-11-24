@@ -56,3 +56,6 @@ records:
   - name: "dhcp-01"
     type: "A"
     value: "10.1.0.10"
+  - name: "sandbox-01"
+    type: "A"
+    value: "10.0.0.107"
