@@ -1,9 +1,0 @@
-- name: set timezone
-  gather_facts: false
-  hosts: all
-
-  tasks:
-  - name: set timezone
-    ansible.builtin.command:
-      cmd: sudo timedatectl set-timezone America/Chicago
-    become: true
