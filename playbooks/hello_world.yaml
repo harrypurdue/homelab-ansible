@@ -1,6 +1,6 @@
 - name: Homelab Ubuntu Hello World
   gather_facts: false
-  hosts: ubuntu_servers
+  hosts: all
 
   tasks:
 

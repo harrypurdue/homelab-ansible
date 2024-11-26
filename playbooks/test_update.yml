@@ -1,6 +1,6 @@
 - name: update dns secondary/testing servers
   gather_facts: false
-  hosts: ubuntu_staging_servers
+  hosts: staging
 
   tasks:
     - name: update
