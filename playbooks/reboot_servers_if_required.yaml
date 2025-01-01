@@ -4,7 +4,9 @@
 
   tasks:
     - name: Check if a reboot is needed for Debian and Ubuntu boxes
-      ansible.builtin.stat: path=/run/reboot-required get_md5=no
+      ansible.builtin.stat: 
+        path: /run/reboot-required
+        get_checksum: no
       register: reboot_required_file
 
     - name: include reboot task
