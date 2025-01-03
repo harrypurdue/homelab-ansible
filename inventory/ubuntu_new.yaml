@@ -30,6 +30,10 @@ test:
     sandbox-01.lab.lan:
   children:
     staging:
+    book:
+book:
+  hosts:
+    book-0[1:2].lab.lan:
 prod:
   children:
     dns:
