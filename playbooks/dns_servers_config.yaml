@@ -1,42 +1,22 @@
-- name: dns-01.lab.lan 
+- name: copying named configuration to each dns host
   gather_facts: true
-  hosts: dns-01.lab.lan
-  tags: primary
-  vars_files:
-    - ../vars/records-db.lab.lan.yaml
+  hosts: dns
+
+  handlers:
+    - name: restart named
+      service:
+        name: named
+        state: restarted
 
   tasks:
-  - name: backup named.conf
-    ansible.builtin.fetch:
-      dest: /home/harry/ansible/homelab/backups
-      src: /etc/bind/named.conf
-  
-  - name: copy named.conf file
-    ansible.builtin.template:
-      src: /home/harry/ansible/homelab/templates/dns/named.conf.dns-01.lab.lan
-      dest: /etc/bind/named.conf
-    become: true
+    - name: backup existing named.conf
+      ansible.builtin.fetch:
+        dest: /home/harry/ansible/homelab/backups
+        src: /etc/bind/named.conf
 
-  - name: restart named service
-    ansible.builtin.systemd_service:
-      state: restarted
-      name: named
-    become: true
-
-- name: dns-02.lab.lan 
-  gather_facts: true
-  hosts: dns-02.lab.lan
-  tags: secondary
-
-  tasks:
-  - name: copy named.conf file
-    ansible.builtin.template:
-      src: /home/harry/ansible/homelab/templates/dns/named.conf.dns-02.lab.lan
-      dest: /etc/bind/named.conf
-    become: true
-
-  - name: restart named service
-    ansible.builtin.systemd_service:
-      state: restarted
-      name: named
-    become: true
+    - name: copy named.conf file from template
+      ansible.builtin.template:
+        src: named.conf.{{ansible_hostname}}.lab.lan
+        dest: /etc/bind/named.conf
+      become: true
+      notify: restart named

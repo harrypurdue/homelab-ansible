@@ -1,42 +1,47 @@
-- name: Updating DNS zone files on dns-01.lab.lan 
+- name: Updating DNS zone files on dns-01.lab.lan
   gather_facts: true
   hosts: dns-01.lab.lan
+  ## Figure out how to define this variable file in the group_vars for dns group
   vars_files:
     - ../vars/records-db.lab.lan.yaml
 
+  handlers:
+    - name: restart named
+      service:
+        name: named
+        state: restarted
+      become: true
+
   tasks:
-  - name: copy forward zone file
-    ansible.builtin.template:
-      src: /home/harry/ansible/homelab/templates/dns/db.lab.lan.j2
-      dest: /etc/bind/db.lab.lan
-    become: true
+    - name: copy forward zone file
+      ansible.builtin.template:
+        src: db.lab.lan.j2
+        dest: /etc/bind/db.lab.lan
+      become: true
+      notify: restart named
 
-  - name: copy reverse zone file 10.0.0.0/24
-    ansible.builtin.template:
-      src: /home/harry/ansible/homelab/templates/dns/0.0.10.in-addr.arpa
-      dest: /etc/bind/0.0.10.in-addr.arpa
-    become: true
+    - name: copy reverse zone file 10.0.0.0/24
+      ansible.builtin.template:
+        src: 0.0.10.in-addr.arpa
+        dest: /etc/bind/0.0.10.in-addr.arpa
+      become: true
+      notify: restart named
 
-  - name: copy reverse zone file 10.1.0.0/24
-    ansible.builtin.template:
-      src: /home/harry/ansible/homelab/templates/dns/1.0.10.in-addr.arpa
-      dest: /etc/bind/1.0.10.in-addr.arpa
-    become: true
+    - name: copy reverse zone file 10.1.0.0/24
+      ansible.builtin.template:
+        src: 1.0.10.in-addr.arpa
+        dest: /etc/bind/1.0.10.in-addr.arpa
+      become: true
+      notify: restart named
 
-  - name: restart named service
-    ansible.builtin.systemd_service:
-      state: restarted
-      name: named
-    become: true
-
-- name: Restarting named on dns-02.lab.lan 
+- name: Restarting named on dns-02.lab.lan
   gather_facts: true
   hosts: dns-02.lab.lan
   tags: secondary
 
   tasks:
-  - name: restart named service
-    ansible.builtin.systemd_service:
-      state: restarted
-      name: named
-    become: true
+    - name: restart named service
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: named
+      become: true
