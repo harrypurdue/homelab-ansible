@@ -21,3 +21,6 @@
 12               IN      PTR     r2.lab.lan.
 13               IN      PTR     r3.lab.lan.
 14               IN      PTR     r4.lab.lan.
+108 IN  PTR book-01.lab.lan.
+109 IN  PTR book-02.lab.lan.
+110 IN  PTR book-03.lab.lan.

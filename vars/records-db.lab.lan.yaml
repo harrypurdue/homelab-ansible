@@ -68,3 +68,6 @@ records:
   - name: "book-02"
     type: "A"
     value: "10.0.0.109"
+  - name: "book-03"
+    type: "A"
+    value: "10.0.0.110"
