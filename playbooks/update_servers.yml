@@ -1,0 +1,107 @@
+#!/usr/bin/env -S ansible-playbook -i inventory/netbox.yml -i inventory/inv.proxmox.yml
+## how can i simplify this so that i don't have to run the same play 
+## twice with only different hosts
+---
+- name: updates for testing servers
+  gather_facts: false
+  hosts: tags_testing
+  strategy: free
+  tags: testing
+
+  tasks:
+    - name: proxmox snapshot
+      community.general.proxmox_snap:
+        api_host: pve.lab.lan:8006
+        api_user: api_user@pve
+        api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+        hostname: "{{inventory_hostname}}"
+        state: present
+        vmstate: true
+      delegate_to: localhost
+
+    - block:
+        - name: update task include
+          include_tasks: tasks/update_ubuntu.yml
+
+        - name: reboot task include
+          include_tasks: tasks/reboot_if_required.yml
+
+        - name: verify task include
+          include_tasks: tasks/verify/{{verification}}
+          register: verify_result
+          when: verification is defined
+
+        - name: debug
+          ansible.builtin.debug:
+            msg: "{{verify_result}}"
+            verbosity: 1
+      rescue:
+        - name: revert snapshot
+          community.general.proxmox_snap:
+            api_host: pve.lab.lan:8006
+            api_user: api_user@pve
+            api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+            hostname: "{{inventory_hostname}}"
+            state: rollback
+          delegate_to: localhost
+      always:
+        - name: remove snapshot
+          community.general.proxmox_snap:
+            api_host: pve.lab.lan:8006
+            api_user: api_user@pve
+            api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+            hostname: "{{inventory_hostname}}"
+            state: absent
+          delegate_to: localhost
+
+- name: updates for production servers
+  gather_facts: false
+  hosts: tags_production
+  strategy: free
+  tags: production
+
+  tasks:
+    - name: proxmox snapshot
+      community.general.proxmox_snap:
+        api_host: pve.lab.lan:8006
+        api_user: api_user@pve
+        api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+        hostname: "{{inventory_hostname}}"
+        state: present
+        vmstate: true
+      delegate_to: localhost
+
+    - block:
+        - name: update task include
+          include_tasks: tasks/test_update_ubuntu.yml
+
+        - name: reboot task include
+          include_tasks: tasks/reboot_if_required.yml
+
+        - name: verify task include
+          include_tasks: tasks/verify/{{verification}}
+          register: verify_result
+          when: verification is defined
+
+        - name: debug
+          ansible.builtin.debug:
+            msg: "{{verify_result}}"
+            verbosity: 1
+      rescue:
+        - name: revert snapshot
+          community.general.proxmox_snap:
+            api_host: pve.lab.lan:8006
+            api_user: api_user@pve
+            api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+            hostname: "{{inventory_hostname}}"
+            state: rollback
+          delegate_to: localhost
+      always:
+        - name: remove snapshot
+          community.general.proxmox_snap:
+            api_host: pve.lab.lan:8006
+            api_user: api_user@pve
+            api_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"
+            hostname: "{{inventory_hostname}}"
+            state: absent
+          delegate_to: localhost
