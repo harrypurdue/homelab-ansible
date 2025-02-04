@@ -1,6 +1,7 @@
+---
 - name: copying named configuration to each dns host
   gather_facts: true
-  hosts: dns
+  hosts: tags_dns
 
   handlers:
     - name: restart named

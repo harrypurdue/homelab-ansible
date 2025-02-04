@@ -1,6 +1,7 @@
-- name: Updating DNS zone files on dns-01.lab.lan
+---
+- name: Updating DNS zone files on dns-01
   gather_facts: true
-  hosts: dns-01.lab.lan
+  hosts: dns-01
   ## Figure out how to define this variable file in the group_vars for dns group
   vars_files:
     - ../vars/records-db.lab.lan.yaml
@@ -34,9 +35,9 @@
       become: true
       notify: restart named
 
-- name: Restarting named on dns-02.lab.lan
+- name: Restarting named on dns-02
   gather_facts: true
-  hosts: dns-02.lab.lan
+  hosts: dns-02
   tags: secondary
 
   tasks:
