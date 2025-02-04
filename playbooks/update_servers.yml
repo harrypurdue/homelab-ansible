@@ -1,4 +1,4 @@
-#!/usr/bin/env -S ansible-playbook -i inventory/netbox.yml -i inventory/inv.proxmox.yml
+#!/usr/bin/env -S ansible-playbook -i inventory/netbox.yml -i inventory/proxmox.yml
 ## how can i simplify this so that i don't have to run the same play 
 ## twice with only different hosts
 ---
