@@ -73,7 +73,7 @@
 
     - block:
         - name: update task include
-          include_tasks: tasks/test_update_ubuntu.yml
+          include_tasks: tasks/update_ubuntu.yml
 
         - name: reboot task include
           include_tasks: tasks/reboot_if_required.yml
