@@ -1,0 +1,11 @@
+---
+
+- name: install packages
+  ansible.builtin.apt:
+    name: "{{item}}"
+    update_cache: true
+  become: true
+  loop: "{{packages}}"
+
+- include_tasks: zabbix_agent.yml
+...

@@ -1,0 +1,7 @@
+---
+# handlers file for standard-apps
+- name: restart zabbix agent
+  service:
+    name: zabbix-agent
+    state: restarted
+  become: true
