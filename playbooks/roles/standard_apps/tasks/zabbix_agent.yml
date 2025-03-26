@@ -1,15 +1,8 @@
 ---
-- name: zabbix deb file containing repo 24.04
+- name: zabbix deb file containing repo
   ansible.builtin.package:
-    deb: https://repo.zabbix.com/zabbix/7.2/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+    deb: "{{ zabbix_repo }}"
   become: true
-  when: ansible_facts.distribution_version == "24.04"
-
-- name: zabbix deb file containing repo 22.04
-  ansible.builtin.package:
-    deb: https://repo.zabbix.com/zabbix/7.2/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.2+ubuntu22.04_all.deb
-  become: true
-  when: ansible_facts.distribution_version == "22.04"
 
 - name: install zabbix agent
   ansible.builtin.package:

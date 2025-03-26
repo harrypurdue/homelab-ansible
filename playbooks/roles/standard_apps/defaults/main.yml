@@ -2,3 +2,4 @@
 # defaults file for standard-apps
 packages:
   - dnsutils
+zabbix_deb: https://repo.zabbix.com/zabbix/7.2/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.2+ubuntu24.04_all.deb

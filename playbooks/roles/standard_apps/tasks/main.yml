@@ -1,5 +1,4 @@
 ---
-
 - name: install packages
   ansible.builtin.package:
     name: "{{item}}"
