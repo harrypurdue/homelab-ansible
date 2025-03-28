@@ -1,0 +1,5 @@
+---
+- name: set timezone
+  community.general.timezone:
+    name: America/Chicago
+  become: true

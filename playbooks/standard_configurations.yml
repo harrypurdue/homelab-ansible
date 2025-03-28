@@ -1,0 +1,8 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: standardized apps and configurations for all servers
+  hosts: tags_ansible
+
+  roles:
+    - role: standard_apps
+    - role: standard_configs

@@ -1,0 +1,21 @@
+---
+- name: include user secrets
+  include_vars: secrets.yml
+
+- name: ansible user
+  ansible.builtin.user:
+    name: ansible
+    state: present
+    password: "{{ ansible }}"
+    groups: adm, sudo
+    append: false
+    shell: /bin/bash
+  become: true
+
+- name: my personal user
+  ansible.builtin.user:
+    name: harry
+    state: present
+    password: "{{ harry }}"
+    shell: /bin/bash
+  become: true
