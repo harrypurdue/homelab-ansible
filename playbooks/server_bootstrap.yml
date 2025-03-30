@@ -1,0 +1,18 @@
+---
+- name: Bootstrap
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_user: harry
+    ansible_password: virtualization01
+    ansible_become_password: virtualization01
+
+  tasks:
+    - name: users
+      include_tasks: tasks/users.yaml
+
+    - name: timezone
+      include_tasks: tasks/timezone.yaml
+
+    - name: rsa keys
+      include_tasks: tasks/rsa_keys.yaml
