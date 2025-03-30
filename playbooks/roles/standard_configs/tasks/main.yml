@@ -1,5 +1,5 @@
 ---
 # tasks file for standard_configs
-- include_tasks: rsa_keys.yml
 - include_tasks: timezone.yml
 - include_tasks: users.yml
+- include_tasks: rsa_keys.yml
