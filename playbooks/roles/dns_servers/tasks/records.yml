@@ -1,0 +1,42 @@
+---
+# need to load a yml file for each zone
+# unsure how to do it
+# yml file is defined in the host vars under
+# bind9_config.zones.record_file
+
+- name: import lab.lan records
+  ansible.builtin.include_vars:
+    file: records-db.lab.lan.yml
+
+- name: db files containing records
+  ansible.builtin.template:
+    src: lab.lan.j2
+    dest: /etc/bind/db.lab.lan
+    owner: root
+    group: bind
+    mode: 0644
+    backup: true
+  notify: restart named
+  become: true
+
+- name: reverse zone
+  ansible.builtin.template:
+    src: 0.0.10.j2
+    dest: /etc/bind/db.0.0.10.in-addr.arpa
+    owner: root
+    group: bind
+    mode: 0644
+    backup: true
+  notify: restart named
+  become: true
+
+- name: reverse zone
+  ansible.builtin.template:
+    src: 1.0.10.j2
+    dest: /etc/bind/db.1.0.10.in-addr.arpa
+    owner: root
+    group: bind
+    mode: 0644
+    backup: true
+  notify: restart named
+  become: true

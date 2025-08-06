@@ -1,0 +1,25 @@
+---
+
+- name: config file
+  ansible.builtin.template:
+    src: named.conf.j2
+    dest: /etc/bind/named.conf
+    owner: root
+    group: bind
+    mode: 0644
+    backup: true
+  notify: restart named
+  become: true
+  tags: config
+
+- name: config options file
+  ansible.builtin.template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+    owner: root
+    group: bind
+    mode: 0644
+    backup: true
+  notify: restart named
+  become: true
+  tags: config

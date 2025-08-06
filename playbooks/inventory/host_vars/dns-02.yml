@@ -1,0 +1,28 @@
+---
+bind9_config:
+  zones:
+    - name: lab.lan
+      type: forward
+      role: secondary
+      peer_ip:
+        - 10.0.0.101
+    - name: 0.0.10.in-addr.arpa
+      type: reverse
+      role: secondary
+      peer_ip:
+        - 10.0.0.101
+    - name: 1.0.10.in-addr.arpa
+      type: reverse
+      role: secondary
+      peer_ip:
+        - 10.0.0.101
+  options:
+    forwarders:
+      - 8.8.8.8
+      - 1.1.1.1
+    allowed_networks:
+      - 10.0.0.0/8
+      - 192.168.0.0/16
+      - localhost
+    query_log: yes
+    recursion: yes

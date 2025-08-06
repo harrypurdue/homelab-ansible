@@ -1,0 +1,7 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: standardized apps and configurations for all servers
+  hosts: tags_dns
+
+  roles:
+    - role: dns_servers

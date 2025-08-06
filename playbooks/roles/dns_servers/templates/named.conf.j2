@@ -1,0 +1,30 @@
+// This is the primary configuration file for the BIND DNS server named.
+//
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// this configuration file.
+//
+// If you are just adding zones, please do that in /etc/bind/named.conf.local
+
+include "/etc/bind/named.conf.options";
+include "/etc/bind/named.conf.local";
+include "/etc/bind/named.conf.default-zones";
+{% for domain in bind9_config.zones %}
+zone "{{domain.name}}" {
+    	type {{domain.role}};
+    	file "/etc/bind/db.{{domain.name}}";
+{% if domain.role == "primary" %}
+		notify yes;
+{% endif %}
+
+{% if domain.role == "primary" %}
+	allow-transfer {
+{% else %}
+	primaries {
+{% endif %}
+{% for host in domain.peer_ip %}
+		{{host}};
+{% endfor %}
+	};
+};
+{% endfor %}

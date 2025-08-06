@@ -1,0 +1,7 @@
+---
+# handlers file for dns_servers
+- name: restart named
+  service:
+    name: named
+    state: restarted
+  become: true

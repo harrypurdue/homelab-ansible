@@ -1,0 +1,8 @@
+---
+
+- name: install bind9 server
+  ansible.builtin.package:
+    name: bind9
+    state: present
+  become: true
+  tags: install
