@@ -9,10 +9,10 @@
 
   tasks:
     - name: users
-      include_tasks: tasks/users.yaml
+      include_tasks: tasks/users.yml
 
     - name: timezone
-      include_tasks: tasks/timezone.yaml
+      include_tasks: tasks/timezone.yml
 
     - name: rsa keys
-      include_tasks: tasks/rsa_keys.yaml
+      include_tasks: tasks/rsa_keys.yml
