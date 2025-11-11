@@ -72,6 +72,3 @@ lab_lan:
   - name: "book-03"
     type: "A"
     value: "10.0.0.110"
-  - name: "docker-02"
-    type: "A"
-    value: "10.0.0.108"
