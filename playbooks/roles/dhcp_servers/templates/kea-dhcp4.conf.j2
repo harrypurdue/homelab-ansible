@@ -1,0 +1,73 @@
+{
+# DHCPv4 configuration starts on the next line
+"Dhcp4": {
+
+# First we set up global values
+    "valid-lifetime": 4000,
+    "renew-timer": 1000,
+    "rebind-timer": 2000,
+
+# Next we set up the interfaces to be used by the server.
+    "interfaces-config": {
+        "interfaces": [ "ens18" ]
+    },
+
+# And we specify the type of lease database
+    "lease-database": {
+        "type": "memfile",
+	"lfc-interval": 3600
+#        "persist": true,
+#        "name": "/var/lib/kea/dhcp4.leases"
+    },
+
+# Finally, we list the subnets from which we will be leasing addresses.
+    "subnet4": [
+{% for subnet in dhcp_server_config.subnet4 %}
+        {
+            "id": {{ subnet.id }},
+            "subnet": "{{ subnet.subnet }}",
+            "pools": [
+                {% for pool in subnet.pools %}
+                {
+                    "pool": "{{ pool.start }} - {{ pool.end }}"
+                },
+                {% endfor %}
+            ],
+	    "option-data" :[
+{% for data in subnet.option_data %}
+		{
+		"name" : "{{ data.name }}",
+		"data": "{{ data.data }}"
+		},
+{% endfor %}
+	    ]
+        }
+    ],
+{% endfor %}
+"loggers": [
+    {
+        "name": "kea-dhcp4",
+        "output_options": [
+            {
+                "output": "syslog",
+                "pattern": "%-5p %m\n"
+
+                // "flush": false,
+
+                // This specifies the maximum size of the file before it is
+                // rotated.
+                // "maxsize": 1048576,
+
+                // This specifies the maximum number of rotated files to keep.
+                // "maxver": 8
+            }
+        ],
+        "severity": "DEBUG",
+        "debuglevel": 0
+}
+]
+
+# DHCPv4 configuration ends with the next line
+}
+
+}

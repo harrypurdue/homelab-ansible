@@ -1,0 +1,12 @@
+---
+
+- name: config file
+  ansible.builtin.template:
+    src: kea-dhcp4.conf.j2
+    dest: /etc/kea/kea-dhcp4.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: restart dhcp
+  become: true

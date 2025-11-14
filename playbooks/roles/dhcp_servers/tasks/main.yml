@@ -1,0 +1,8 @@
+---
+# tasks file for dhcp_servers
+
+# install software
+- include_tasks: install.yml
+
+# copy config file
+- include_tasks: config.yml

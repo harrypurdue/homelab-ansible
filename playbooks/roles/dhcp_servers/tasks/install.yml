@@ -1,0 +1,8 @@
+---
+
+- name: install dhcp server
+  ansible.builtin.package:
+    name: kea-dhcp4-server
+    state: present
+  become: true
+  tags: install

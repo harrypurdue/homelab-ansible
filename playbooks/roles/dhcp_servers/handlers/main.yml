@@ -1,0 +1,7 @@
+---
+# handlers file for dhcp_servers
+- name: restart dhcp
+  service:
+    name: kea-dhcp4-server
+    state: restarted
+  become: true
