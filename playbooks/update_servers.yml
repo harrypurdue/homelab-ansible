@@ -4,9 +4,9 @@
 ---
 - name: updates for testing servers
   gather_facts: false
-  hosts: tags_testing
+  hosts: tags_dev
   strategy: free
-  tags: testing
+  tags: dev
 
   tasks:
     - name: proxmox snapshot
@@ -56,9 +56,9 @@
 
 - name: updates for production servers
   gather_facts: false
-  hosts: tags_production
+  hosts: tags_prod
   strategy: free
-  tags: production
+  tags: prod
 
   tasks:
     - name: proxmox snapshot
