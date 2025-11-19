@@ -1,7 +1,13 @@
 ---
 # install software
 - include_tasks: install.yml
+  tags: install
 # copy config files
 - include_tasks: config.yml
+  tags: config
 # copy or update records for zones
 - include_tasks: records.yml
+  tags: records
+
+- include_tasks: debug.yml
+  tags: debug

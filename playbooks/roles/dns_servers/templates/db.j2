@@ -1,0 +1,85 @@
+{# https://www.zytrax.com/books/dns/ch9/subdomain.html #}
+{% for zone in bind9_config.zones %}
+$TTL 2d	; default TTL for zone
+
+$ORIGIN {{ zone.name }}. ; base domain-name
+@     	IN  	SOA   {{ zone.mname }}.{{ zone.name }}. admin.{{ zone.name }}. (
+
+                            	{{ansible_date_time.epoch}} ; serial number
+
+                            	12h    	; refresh
+
+                            	15m    	; update retry
+
+                            	3w     	; expiry
+
+                            	60s     ; minimum
+
+                            	)
+
+
+{% for ns in zone.name_servers %}
+       	IN  	NS  	{{ ns.name }}.{{ zone.name }}.
+{% endfor %}
+
+{% for record in domains[zone.name]%}
+{% if record.type == "CAA" %}
+{{record.name}} IN {{record.type}} 0 issue "{{record.value}}"
+{% else %}
+{{record.name}} IN {{record.type}} {{record.value}}
+{% endif %}
+{% endfor %}
+
+{% if zone.sub_domains is defined%}
+{% for sub_domain in zone.sub_domains %}
+$ORIGIN {{ sub_domain.name }}.
+{% for ns in sub_domain.name_servers %}
+       	IN  	NS  	{{ ns.name }}.{{ sub_domain.name }}.a
+{% endfor %}
+{% for record in domains[sub_domain.name]%}
+{% if record.type == "CAA" %}
+{{record.name}} IN {{record.type}} 0 issue "{{record.value}}"
+{% else %}
+{{record.name}} IN {{record.type}} {{record.value}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{#
+; base zone file for lab.lan
+
+$TTL 2d	; default TTL for zone
+
+$ORIGIN lab.lan. ; base domain-name
+
+; Start of Authority RR defining the key characteristics of the zone (domain)
+
+@     	IN  	SOA   dns-01.lab.lan. admin.lab.lan. (
+
+                            	{{ansible_date_time.epoch}} ; serial number
+
+                            	12h    	; refresh
+
+                            	15m    	; update retry
+
+                            	3w     	; expiry
+
+                            	60s     ; minimum
+
+                            	)
+
+; name server RR for the domain
+
+       	IN  	NS  	dns-01.lab.lan.
+       	IN  	NS  	dns-02.lab.lan.
+
+; records for domain
+{% for record in lab_lan %}
+{% if record.type == "CAA" %}
+{{record.name}} IN {{record.type}} 0 issue "{{record.value}}"
+{% else %}
+{{record.name}} IN {{record.type}} {{record.value}}
+{% endif %}
+{% endfor %}
+#}

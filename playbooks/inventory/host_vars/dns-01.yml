@@ -6,16 +6,21 @@ bind9_config:
       role: primary
       peer_ip:
         - 10.0.0.102
-    - name: 0.0.10.in-addr.arpa
-      type: reverse
-      role: primary
-      peer_ip:
-        - 10.0.0.102
-    - name: 1.0.10.in-addr.arpa
-      type: reverse
-      role: primary
-      peer_ip:
-        - 10.0.0.102
+      sub_domains:
+        - name: dev.lab.lan
+          type: forward
+          role: primary
+          peer_ip:
+            - 10.0.0.102
+          name_servers:
+            - name: dns-03
+              ip_address: 10.2.0.101
+            - name: dns-04
+              ip_address: 10.2.0.102
+      mname: dns-01
+      name_servers:
+        - name: dns-01
+        - name: dns-02
   options:
     forwarders:
       - 8.8.8.8
