@@ -1,7 +1,7 @@
 ---
 plugin: netbox.netbox.nb_inventory
-api_endpoint: https://docker-01.lab.lan:8000
-token: c2dbe0246d10dffc2c1ce816d5d474107a931414
+api_endpoint: http://docker-01.lab.lan:8000
+token: 10ef78d4134bb36c9ee2262099a7e5bb574e2d85
 validate_certs: false
 group_by:
   - tags
