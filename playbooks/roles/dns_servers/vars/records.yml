@@ -71,3 +71,6 @@ domains:
     - name: "dns-04"
       type: "A"
       value: "10.2.0.102"
+    - name: "dhcp-02"
+      type: "A"
+      value: "10.2.0.10"
