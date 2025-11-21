@@ -8,6 +8,3 @@
 # copy or update records for zones
 - include_tasks: records.yml
   tags: records
-
-- include_tasks: debug.yml
-  tags: debug
