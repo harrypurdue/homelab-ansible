@@ -10,6 +10,6 @@ dhcp_server_config:
         - name: routers
           data: 10.2.0.254
         - name: domain-name-servers
-          data: 10.0.0.101,10.0.0.102
+          data: 10.2.0.101,10.2.0.102
         - name: domain-search
           data: dev.lab.lan
