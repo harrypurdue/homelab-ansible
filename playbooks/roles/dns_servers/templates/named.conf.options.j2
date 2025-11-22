@@ -28,7 +28,7 @@ options {
 	
 	version "not currently available";
 	
-	listen-on-v6 { any; };
+	listen-on-v6 { none; };
 	
 	forward only;
 	
@@ -42,4 +42,47 @@ options {
 	allow-query { networks; };
 
 	querylog {{ bind9_config.options.query_log }};
+};
+
+logging {
+        channel transfers {
+            file "/var/cache/bind/transfers" versions 3 size 10M;
+            print-time yes;
+            severity info;
+        };
+        channel notify {
+            file "/var/cache/bind/notify" versions 3 size 10M;
+            print-time yes;
+            severity info;
+        };
+        channel dnssec {
+            file "/var/cache/bind/dnssec" versions 3 size 10M;
+            print-time yes;
+            severity info;
+        };
+        channel query {
+            file "/var/cache/bind/query" versions 5 size 10M;
+            print-time yes;
+            severity info;
+        };
+        channel general {
+            file "/var/cache/bind/general" versions 3 size 10M;
+        print-time yes;
+        severity info;
+        };
+    channel slog {
+        syslog security;
+        severity info;
+    };
+        category xfer-out { transfers; slog; };
+        category xfer-in { transfers; slog; };
+        category notify { notify; };
+
+        category lame-servers { general; };
+        category config { general; };
+        category default { general; };
+        category security { general; slog; };
+        category dnssec { dnssec; };
+
+        category queries { query; };
 };
