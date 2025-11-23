@@ -74,3 +74,6 @@ domains:
     - name: "dhcp-02"
       type: "A"
       value: "10.2.0.10"
+    - name: "docker-02"
+      type: "A"
+      value: "10.2.0.106"
