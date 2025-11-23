@@ -1,0 +1,27 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+{% for domain in bind9_config.zones %}
+zone "{{domain.name}}" {
+    	type {{domain.role}};
+    	file "/etc/bind/db.{{domain.name}}";
+{% if domain.role == "primary" %}
+		notify yes;
+{% endif %}
+
+{% if domain.role == "primary" %}
+	allow-transfer {
+{% else %}
+	primaries {
+{% endif %}
+{% for host in domain.peer_ip %}
+		{{host}};
+{% endfor %}
+	};
+};
+{% endfor %}

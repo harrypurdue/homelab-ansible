@@ -9,22 +9,3 @@
 include "/etc/bind/named.conf.options";
 include "/etc/bind/named.conf.local";
 include "/etc/bind/named.conf.default-zones";
-{% for domain in bind9_config.zones %}
-zone "{{domain.name}}" {
-    	type {{domain.role}};
-    	file "/etc/bind/db.{{domain.name}}";
-{% if domain.role == "primary" %}
-		notify yes;
-{% endif %}
-
-{% if domain.role == "primary" %}
-	allow-transfer {
-{% else %}
-	primaries {
-{% endif %}
-{% for host in domain.peer_ip %}
-		{{host}};
-{% endfor %}
-	};
-};
-{% endfor %}
