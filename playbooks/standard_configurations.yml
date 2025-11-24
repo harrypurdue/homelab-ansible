@@ -6,10 +6,3 @@
   roles:
     - role: standard_apps
     - role: standard_configs
-
-- name: install docker on docker servers
-  hosts: tags_docker
-
-  roles:
-    - role: geerlingguy.docker
-  become: true

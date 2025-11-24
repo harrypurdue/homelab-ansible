@@ -1,0 +1,8 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: install docker on docker servers
+  hosts: tags_docker
+
+  roles:
+    - role: geerlingguy.docker
+  become: true
