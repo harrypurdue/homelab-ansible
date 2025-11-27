@@ -1,0 +1,8 @@
+---
+# tasks file for docker_containers
+
+- include_tasks: install.yml
+  when: netbox_docker is defined and netbox_docker | bool
+
+- include_tasks: backup.yml
+  when: netbox_docker_backup is defined and netbox_docker_backup | bool

@@ -5,4 +5,5 @@
 
   roles:
     - role: geerlingguy.docker
+    - role: netbox_docker
   become: true

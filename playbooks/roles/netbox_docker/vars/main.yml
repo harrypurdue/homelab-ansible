@@ -1,0 +1,14 @@
+---
+# vars file for docker_containers
+
+# setting to admin to ease first time install/configuration
+# recommend changing password via gui
+# password stored in ansible vault
+# netbox_default_admin_password
+netbox_default_admin_username: admin
+netbox_default_admin_email: admin@lab.lan
+
+git_repo: https://github.com/netbox-community/netbox-docker.git
+netbox_dir: /usr/local/netbox_docker
+
+netbox_docker_backup_database_command: docker compose exec -T postgres sh -c 'pg_dump -cU $POSTGRES_USER $POSTGRES_DB' | gzip > db_dump.sql.gz
