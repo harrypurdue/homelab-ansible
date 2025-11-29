@@ -1,0 +1,25 @@
+---
+
+- name: backup database
+  ansible.builtin.import_tasks:
+    file: backup.yml
+
+- name: docker compose down
+  community.docker.docker_compose_v2:
+    project_src: "{{ netbox_dir }}"
+    state: absent
+
+- name: pull latest from git
+  ansible.builtin.git:
+    repo: "{{ git_repo }}"
+    dest: "{{ netbox_dir }}"
+    version: release
+
+- name: docker compose pull
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ netbox_dir }}"
+
+- name: docker compose up
+  community.docker.docker_compose_v2:
+    project_src: "{{ netbox_dir }}"
+    state: present

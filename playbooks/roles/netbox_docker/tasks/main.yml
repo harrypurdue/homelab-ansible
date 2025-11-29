@@ -9,3 +9,6 @@
 
 - include_tasks: restore.yml
   when: netbox_docker_restore is defined and netbox_docker_restore | bool
+
+- include_tasks: update.yml
+  when: netbox_docker_update is defined and netbox_docker_update | bool

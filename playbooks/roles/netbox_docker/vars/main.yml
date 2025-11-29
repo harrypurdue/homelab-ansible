@@ -18,3 +18,5 @@ netbox_docker_restore_database_command: gunzip -c db_dump.sql.gz | docker compos
 ## assumes docker-01 is the 'primary'
 ## overwrite this variable if you want to restore from a different backup
 database_backup_location: ../backups/docker-01/db_dump.sql.gz
+
+netbox_docker_update: false
