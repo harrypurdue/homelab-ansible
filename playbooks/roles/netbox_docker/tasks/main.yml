@@ -6,3 +6,6 @@
 
 - include_tasks: backup.yml
   when: netbox_docker_backup is defined and netbox_docker_backup | bool
+
+- include_tasks: restore.yml
+  when: netbox_docker_restore is defined and netbox_docker_restore | bool
