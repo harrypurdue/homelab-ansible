@@ -21,3 +21,12 @@ services:
       SUPERUSER_NAME: "{{ netbox_default_admin_username }}"
       SUPERUSER_PASSWORD: "{{ netbox_default_admin_password }}"
 {% endif %}
+    restart: unless-stopped
+  netbox-worker:
+    restart: unless-stopped
+  redis:
+    restart: unless-stopped
+  postgres:
+    restart: unless-stopped
+  redis-cache:
+    restart: unless-stopped
