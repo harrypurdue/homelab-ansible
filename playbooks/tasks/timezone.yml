@@ -1,4 +1,0 @@
-- name: set timezone
-  ansible.builtin.command:
-    cmd: sudo timedatectl set-timezone America/Chicago
-  become: true
