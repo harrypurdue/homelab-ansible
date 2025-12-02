@@ -1,3 +1,4 @@
+---
 - name: Zabbix Service Verification
   ansible.builtin.systemd_service:
     name: zabbix-server.service

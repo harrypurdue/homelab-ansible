@@ -1,3 +1,4 @@
+---
 - name: verify dns
   ansible.builtin.systemd_service:
     name: named.service

@@ -1,3 +1,4 @@
+---
 - name: Reboot the Debian or Ubuntu server
   ansible.builtin.reboot:
     msg: "Reboot initiated by Ansible"

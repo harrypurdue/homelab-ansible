@@ -1,3 +1,4 @@
+---
 - name: Docker Service Verification
   ansible.builtin.systemd_service:
     name: docker.service

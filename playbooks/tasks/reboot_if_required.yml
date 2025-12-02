@@ -1,3 +1,4 @@
+---
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
   ansible.builtin.stat: 
     path: /run/reboot-required

@@ -1,2 +1,3 @@
+---
 - name: CA Service Verification (Docker)
   include_tasks: docker.yml
