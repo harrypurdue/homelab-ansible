@@ -5,10 +5,10 @@
 
 - name: Zabbix DB Service Verification
   ansible.builtin.systemd_service:
-    name: mariadb.service
+    name: postgresql.service
     state: started
 
-- name: Apache Service Verification
+- name: nginx Service Verification
   ansible.builtin.systemd_service:
-    name: apache2.service
+    name: nginx.service
     state: started
