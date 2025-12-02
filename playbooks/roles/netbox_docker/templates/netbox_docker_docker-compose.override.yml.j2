@@ -17,7 +17,7 @@ services:
     environment:
       SKIP_SUPERUSER: "false"
       # SUPERUSER_API_TOKEN: ""
-      SUPERUSER_EMAIL: "admin@lab.lan"    
+      SUPERUSER_EMAIL: "{{ netbox_default_admin_email }}"    
       SUPERUSER_NAME: "{{ netbox_default_admin_username }}"
       SUPERUSER_PASSWORD: "{{ netbox_default_admin_password }}"
 {% endif %}

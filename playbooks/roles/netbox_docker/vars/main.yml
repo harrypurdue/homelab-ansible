@@ -14,9 +14,10 @@ netbox_dir: /usr/local/netbox_docker
 netbox_docker_backup_database_command: docker compose exec -T postgres sh -c 'pg_dump -cU $POSTGRES_USER $POSTGRES_DB' | gzip > db_dump.sql.gz
 netbox_docker_restore_database_command: gunzip -c db_dump.sql.gz | docker compose exec -T postgres sh -c 'psql -U $POSTGRES_USER $POSTGRES_DB'
 
-## location of file to restore for database backup
-## assumes docker-01 is the 'primary'
-## overwrite this variable if you want to restore from a different backup
+# location of file to restore for database backup
+# assumes docker-01 is the 'primary'
+# overwrite this variable if you want to restore from a different backup
 database_backup_location: ../backups/docker-01/db_dump.sql.gz
 
+# prevent updating by default, change to true to hosts where you want to update netbox docker
 netbox_docker_update: false
