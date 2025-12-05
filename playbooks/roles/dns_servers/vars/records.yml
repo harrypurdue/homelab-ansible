@@ -77,3 +77,6 @@ domains:
     - name: "docker-02"
       type: "A"
       value: "10.2.0.106"
+    - name: "docker-03"
+      type: "A"
+      value: "10.2.0.103"
