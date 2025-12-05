@@ -1,0 +1,7 @@
+#!/usr/bin/env -S ansible-playbook -i inventory/netbox.yml -i inventory/proxmox.yml
+---
+- name: updates
+  hosts: tags_dev
+
+  roles:
+    - role: updates
