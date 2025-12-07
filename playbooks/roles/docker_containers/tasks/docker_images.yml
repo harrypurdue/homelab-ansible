@@ -1,0 +1,19 @@
+---
+- name: copy dockerfile
+  ansible.builtin.template:
+    src: "{{ item.name }}-docker-file.j2"
+    dest: "{{ item.name }}-docker-file"
+
+- name: build image
+  community.docker.docker_image:
+    name: "{{ item.name }}"
+    build:
+      dockerfile: "{{ item.name }}-docker-file"
+      path: ./
+    source: build
+    state: "{{ item.state | default('present') }}"
+
+- name: delete dockerfile
+  ansible.builtin.file:
+    path: ubuntu-docker-file
+    state: absent
