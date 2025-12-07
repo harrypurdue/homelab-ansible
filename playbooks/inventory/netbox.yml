@@ -6,5 +6,6 @@ validate_certs: false
 group_by:
   - tags
   - platforms
+config_context: true
 compose:
   foo: last_updated

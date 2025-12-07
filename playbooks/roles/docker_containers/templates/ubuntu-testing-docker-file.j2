@@ -1,0 +1,11 @@
+FROM ubuntu:rolling
+
+RUN apt-get update
+RUN apt-get install -y openssh-server sudo+
+RUN useradd -rm -d /home/harry -s /bin/bash -g root -G sudo -u 1069 harry
+RUN echo "harry:{{harry_local_user_pass}}" | chpasswd
+RUN service ssh start
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd","-D"]

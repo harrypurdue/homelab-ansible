@@ -1,0 +1,7 @@
+---
+- name: start containers
+  community.docker.docker_container:
+    name: "{{ item.name }}"
+    image: "{{ item.image }}"
+    ports:
+      - "{{ item.ssh_host_port}}:22"

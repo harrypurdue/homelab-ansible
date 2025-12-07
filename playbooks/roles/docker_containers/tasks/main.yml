@@ -1,0 +1,20 @@
+---
+# tasks file for roles/docker_containers
+
+- name: set var images
+  ansible.builtin.set_fact:
+    images: "{{ local_context_data[0].images }}"
+  when: local_context_data[0].images is defined and images is not defined
+
+- name: set var containers
+  ansible.builtin.set_fact:
+    containers: "{{ local_context_data[0].containers }}"
+  when: local_context_data[0].containers is defined and containers is not defined
+
+- include_tasks: docker_images.yml
+  loop: "{{ images }}"
+  when: images is defined
+
+- include_tasks: docker_containers.yml
+  loop: "{{ containers }}"
+  when: containers is defined
