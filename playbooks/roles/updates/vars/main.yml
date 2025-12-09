@@ -1,0 +1,7 @@
+---
+# vars file for roles/updates
+
+proxmox_host: pve.lab.lan
+proxmox_port: "8006"
+proxmox_user: api_user@pve
+proxmox_password: "{{lookup('env', 'PROXMOX_PASSWORD')}}"

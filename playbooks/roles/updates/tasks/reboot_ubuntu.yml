@@ -1,6 +1,6 @@
 ---
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
-  ansible.builtin.stat: 
+  ansible.builtin.stat:
     path: /run/reboot-required
     get_checksum: no
   register: reboot_required_file
@@ -14,10 +14,3 @@
     post_reboot_delay: 30
     test_command: uptime
   when: reboot_required_file.stat.exists
-  register: reboot
-  become: true
-
-- name: debug reboot
-  ansible.builtin.debug:
-    msg: "{{reboot}}"
-    verbosity: 1

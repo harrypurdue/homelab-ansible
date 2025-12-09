@@ -1,0 +1,7 @@
+---
+- name: update ubuntu
+  ansible.builtin.apt:
+    force_apt_get: true
+    update_cache: true
+    upgrade: dist
+  become: true

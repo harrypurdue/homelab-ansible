@@ -1,0 +1,45 @@
+---
+# tasks file for roles/updates
+
+- name: proxmox snapshot
+  community.general.proxmox_snap:
+    api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_password }}"
+    hostname: "{{inventory_hostname}}"
+    state: present
+    vmstate: true
+  delegate_to: localhost
+
+- name: update ubuntu
+  block:
+    - include_tasks: update_ubuntu.yml
+      when: ansible_facts.os_family == 'Debian'
+
+    - include_tasks: reboot_ubuntu.yml
+      when: ansible_facts.os_family == 'Debian'
+  rescue:
+    - name: revert snapshot
+      community.general.proxmox_snap:
+        api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_password }}"
+        hostname: "{{inventory_hostname}}"
+        state: rollback
+      delegate_to: localhost
+  always:
+    - name: remove snapshot
+      community.general.proxmox_snap:
+        api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_password }}"
+        hostname: "{{inventory_hostname}}"
+        state: absent
+      delegate_to: localhost
+
+- name: verification scripts
+  block:
+    - include_tasks: verification/base_verification.yml
+
+    - include_tasks: "verification/{{ verification }}"
+      when: verification is defined
