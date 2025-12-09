@@ -4,3 +4,4 @@
     force_apt_get: true
     update_cache: true
     upgrade: dist
+  become: true
