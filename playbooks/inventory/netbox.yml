@@ -7,5 +7,6 @@ group_by:
   - tags
   - platforms
 config_context: true
+flatten_config_context: true
 compose:
-  foo: last_updated
+  last_updated: last_updated

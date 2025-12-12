@@ -3,13 +3,13 @@
 
 - name: set var images
   ansible.builtin.set_fact:
-    images: "{{ local_context_data[0].images }}"
-  when: local_context_data[0].images is defined and images is not defined
+    images: "{{ images }}"
+  when: images is defined
 
 - name: set var containers
   ansible.builtin.set_fact:
-    containers: "{{ local_context_data[0].containers }}"
-  when: local_context_data[0].containers is defined and containers is not defined
+    containers: "{{ containers }}"
+  when: containers is defined
 
 - include_tasks: docker_images.yml
   loop: "{{ images }}"
