@@ -1,14 +1,18 @@
 ---
 # tasks file for docker_containers
 
-- include_tasks: install.yml
+- name: install netbox
+  include_tasks: install.yml
   when: netbox_docker is defined and netbox_docker | bool
 
-- include_tasks: backup.yml
+- name: backup netbox
+  include_tasks: backup.yml
   when: netbox_docker_backup is defined and netbox_docker_backup | bool
 
-- include_tasks: restore.yml
+- name: restore netbox
+  include_tasks: restore.yml
   when: netbox_docker_restore is defined and netbox_docker_restore | bool
 
-- include_tasks: update.yml
+- name: update netbox
+  include_tasks: update.yml
   when: netbox_docker_update is defined and netbox_docker_update | bool
