@@ -5,3 +5,5 @@
     image: "{{ item.image }}"
     ports:
       - "{{ item.ssh_host_port}}:22"
+    restart_policy: "unless-stopped"
+  become: true

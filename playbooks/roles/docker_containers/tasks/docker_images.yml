@@ -12,6 +12,7 @@
       path: ./
     source: build
     state: "{{ item.state | default('present') }}"
+  become: true
 
 - name: delete dockerfile
   ansible.builtin.file:
