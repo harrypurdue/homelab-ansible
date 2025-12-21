@@ -3,18 +3,18 @@
   ansible.builtin.git:
     clone: true
     repo: "{{ git_repo }}"
-    dest: "{{ netbox_dir }}"
+    dest: "{{ install_directory }}"
     version: release
 
 - name: create docker-compose.override.yml
   ansible.builtin.template:
     src: netbox_docker_docker-compose.override.yml.j2
-    dest: "{{ netbox_dir }}/docker-compose.override.yml"
+    dest: "{{ install_directory }}/docker-compose.override.yml"
     owner: root
     group: root
     mode: "0644"
 
 - name: docker compose up
   community.docker.docker_compose_v2:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
     state: present

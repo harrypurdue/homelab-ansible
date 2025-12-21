@@ -13,13 +13,13 @@ services:
       # the start_period might also need to be set higher.
       # Default value in our docker-compose.yml is 60s
       start_period: 240s
-{% if netbox_default_admin_username and netbox_default_admin_password is defined %}
+{% if default_admin_username and default_admin_password is defined %}
     environment:
       SKIP_SUPERUSER: "false"
       # SUPERUSER_API_TOKEN: ""
-      SUPERUSER_EMAIL: "{{ netbox_default_admin_email }}"    
-      SUPERUSER_NAME: "{{ netbox_default_admin_username }}"
-      SUPERUSER_PASSWORD: "{{ netbox_default_admin_password }}"
+      SUPERUSER_EMAIL: "{{ default_admin_email }}"    
+      SUPERUSER_NAME: "{{ default_admin_username }}"
+      SUPERUSER_PASSWORD: "{{ default_admin_password }}"
 {% endif %}
     restart: unless-stopped
   netbox-worker:

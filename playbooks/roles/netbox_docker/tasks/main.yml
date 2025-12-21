@@ -15,4 +15,4 @@
 
 - name: update netbox
   include_tasks: update.yml
-  when: netbox_docker_update is defined and netbox_docker_update | bool
+  when: update is defined and update | bool

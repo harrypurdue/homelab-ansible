@@ -1,16 +1,16 @@
 ---
 - name: backup database
   ansible.builtin.shell:
-    chdir: "{{ netbox_dir }}"
-    cmd: "{{ netbox_docker_backup_database_command }}"
+    chdir: "{{ install_directory }}"
+    cmd: "{{ backup_database_command }}"
 
 - name: pull backup from node
   ansible.builtin.fetch:
-    src: "{{ netbox_dir }}/db_dump.sql.gz"
-    dest: ../backups/{{ ansible_hostname }}/
+    src: "{{ install_directory }}/{{ backup_file }}"
+    dest: "{{ database_backup_location }}"
     flat: true
 
 - name: delete backup file from node
   ansible.builtin.file:
-    path: "{{ netbox_dir }}/db_dump.sql.gz"
+    path: "{{ install_directory }}/{{ backup_file }}"
     state: absent

@@ -6,20 +6,20 @@
 
 - name: docker compose down
   community.docker.docker_compose_v2:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
     state: absent
 
 - name: pull latest from git
   ansible.builtin.git:
     repo: "{{ git_repo }}"
-    dest: "{{ netbox_dir }}"
+    dest: "{{ install_directory }}"
     version: release
 
 - name: docker compose pull
   community.docker.docker_compose_v2_pull:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
 
 - name: docker compose up
   community.docker.docker_compose_v2:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
     state: present

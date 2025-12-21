@@ -2,14 +2,14 @@
 - name: copy db file
   ansible.builtin.copy:
     src: "{{ database_backup_location }}"
-    dest: "{{ netbox_dir }}"
+    dest: "{{ install_directory }}"
     owner: root
     group: root
     mode: "0644"
 
 - name: docker compose down required containers
   community.docker.docker_compose_v2:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
     services:
       - netbox
       - netbox-worker
@@ -17,12 +17,12 @@
 
 - name: restore database
   ansible.builtin.shell:
-    chdir: "{{ netbox_dir }}"
-    cmd: "{{ netbox_docker_restore_database_command }}"
+    chdir: "{{ install_directory }}"
+    cmd: "{{ restore_database_command }}"
 
 - name: docker compose up
   community.docker.docker_compose_v2:
-    project_src: "{{ netbox_dir }}"
+    project_src: "{{ install_directory }}"
     services:
       - netbox
       - netbox-worker
@@ -30,5 +30,5 @@
 
 - name: clean up
   ansible.builtin.file:
-    path: "{{ netbox_dir }}/db_dump.sql.gz"
+    path: "{{ install_directory }}/{{ backup_file }}"
     state: absent

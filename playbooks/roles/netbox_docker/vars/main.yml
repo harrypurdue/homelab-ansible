@@ -3,21 +3,22 @@
 
 # setting to admin to ease first time install/configuration
 # recommend changing password via gui
-# password stored in ansible vault
-# netbox_default_admin_password
-netbox_default_admin_username: admin
-netbox_default_admin_email: admin@lab.lan
+default_admin_username: admin
+default_admin_email: admin@lab.lan
+default_admin_password: Defaultpassword1
 
 git_repo: https://github.com/netbox-community/netbox-docker.git
-netbox_dir: /usr/local/netbox_docker
+install_directory: /usr/local/netbox_docker
 
-netbox_docker_backup_database_command: docker compose exec -T postgres sh -c 'pg_dump -cU $POSTGRES_USER $POSTGRES_DB' | gzip > db_dump.sql.gz
-netbox_docker_restore_database_command: gunzip -c db_dump.sql.gz | docker compose exec -T postgres sh -c 'psql -U $POSTGRES_USER $POSTGRES_DB'
+backup_file: db_dump.sql.gz
+
+backup_database_command: docker compose exec -T postgres sh -c 'pg_dump -cU $POSTGRES_USER $POSTGRES_DB' | gzip > {{ backup_file }}
+restore_database_command: gunzip -c {{ backup_file }} | docker compose exec -T postgres sh -c 'psql -U $POSTGRES_USER $POSTGRES_DB'
 
 # location of file to restore for database backup
 # assumes docker-01 is the 'primary'
 # overwrite this variable if you want to restore from a different backup
-database_backup_location: ../backups/docker-01/db_dump.sql.gz
+database_backup_location: ../backups/{{ ansible_hostname }}/{{ backup_file }}
 
 # prevent updating by default, change to true to hosts where you want to update netbox docker
-netbox_docker_update: false
+update: false
