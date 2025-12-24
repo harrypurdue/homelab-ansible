@@ -1,0 +1,20 @@
+---
+- name: make install directory
+  ansible.builtin.file:
+    path: "{{ install_directory }}"
+    state: directory
+    mode: '0755'
+    owner: ansible
+  become: true
+
+- name: template docker-compose
+  ansible.builtin.template:
+    dest: "{{ install_directory }}/docker-compose.yml"
+    src: docker-compose.j2
+    owner: ansible
+    mode: "0644"
+
+- name: docker compose up
+  community.docker.docker_compose_v2:
+    project_src: "{{ install_directory }}"
+    state: present

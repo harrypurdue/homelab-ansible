@@ -1,0 +1,16 @@
+---
+
+- name: docker compose down
+  community.docker.docker_compose_v2:
+    project_src: "{{ install_directory }}"
+    state: stopped
+
+- name: docker prune
+  ansible.builtin.shell:
+    cmd: docker system prune --force --all
+
+- name: delete install folder
+  ansible.builtin.file:
+    path: "{{ install_directory }}"
+    state: absent
+  become: true

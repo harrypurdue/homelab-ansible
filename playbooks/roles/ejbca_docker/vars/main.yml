@@ -1,0 +1,11 @@
+---
+# vars file for roles/ejbca_docker
+
+# default install directory
+install_directory: /usr/local/ejbca_docker
+
+ejbca_hostname: ejbca_node1
+
+database_root_password: foo123
+database_username: ejbca
+database_user_password: ejbca

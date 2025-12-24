@@ -1,0 +1,10 @@
+---
+# tasks file for roles/ejbca_docker
+
+- name: install ejbca
+  include_tasks: install.yml
+  when: ejbca_docker_install is defined and ejbca_docker_uninstall is undefined
+
+- name: uninstall ejbca
+  include_tasks: uninstall.yml
+  when: ejbca_docker_uninstall is defined and ejbca_docker_install is undefined
