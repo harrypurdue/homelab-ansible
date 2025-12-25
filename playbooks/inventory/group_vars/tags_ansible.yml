@@ -1,0 +1,11 @@
+---
+zabbix_host_groups:
+  - virtual machines
+zabbix_interfaces:
+  - type: agent
+    ip: "{{ primary_ip4 }}"
+    useip: 1
+    main: 1
+zabbix_monitored_by: zabbix_server
+zabbix_tags:
+  - tag: ansible_managed

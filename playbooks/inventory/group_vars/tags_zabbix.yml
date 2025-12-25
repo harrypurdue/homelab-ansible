@@ -1,2 +1,13 @@
 ---
 verification: zabbix.yml
+zabbix_link_templates:
+  - ICMP Ping
+  - Linux by Zabbix agent
+  - zabbix server
+  - Zabbix server health
+  - custom http homelab checks
+zabbix_interfaces:
+  - type: agent
+    ip: 127.0.0.1
+    useip: 1
+    main: 1

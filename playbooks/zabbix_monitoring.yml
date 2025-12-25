@@ -1,0 +1,25 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: zabbix testing
+  hosts: tags_ansible
+  gather_facts: false
+
+  tasks:
+    - name: set host information
+      vars:
+        ansible_network_os: community.zabbix.zabbix
+        ansible_connection: httpapi
+        ansible_httpapi_port: 8080
+        ansible_httpapi_use_ssl: false
+        ansible_httpapi_validate_certs: false
+        ansible_host: zabbix-01.lab.lan
+        ansible_zabbix_url_path: ""
+      community.zabbix.zabbix_host:
+        host_name: "{{ inventory_hostname }}"
+        host_groups: "{{ zabbix_host_groups | default(omit) }}"
+        description: "{{ zabbix_description | default(omit) }}"
+        interfaces: "{{ zabbix_interfaces }}"
+        link_templates: "{{ zabbix_link_templates | default(omit) }}"
+        monitored_by: "{{ zabbix_monitored_by }}"
+        tags: "{{ zabbix_tags | default(omit) }}"
+        state: present
