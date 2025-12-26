@@ -1,0 +1,14 @@
+---
+- name: delete cloud init sshd file
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/50-cloud-init.conf
+    state: absent
+  become: true
+
+- name: modify the ssh file
+  ansible.builtin.replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^(#)(PasswordAuthentication) .*'
+    replace: '\2 no'
+  notify: restart sshd
+  become: true
