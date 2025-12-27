@@ -34,7 +34,7 @@ $ORIGIN {{ zone.name }}. ; base domain-name
 {% for sub_domain in zone.sub_domains %}
 $ORIGIN {{ sub_domain.name }}.
 {% for ns in sub_domain.name_servers %}
-       	IN  	NS  	{{ ns.name }}.{{ sub_domain.name }}.
+@       	IN  	NS  	{{ ns.name }}.{{ sub_domain.name }}.
 {% endfor %}
 {% for record in domains[sub_domain.name]%}
 {% if record.type == "CAA" %}
