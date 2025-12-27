@@ -4,9 +4,9 @@
 # yml file is defined in the host vars under
 # bind9_config.zones.record_file
 
-- name: import dns records
-  ansible.builtin.include_vars:
-    file: records.yml
+# - name: import dns records
+#   ansible.builtin.include_vars:
+#     file: records.yml
 
 - name: db files containing records
   ansible.builtin.template:
