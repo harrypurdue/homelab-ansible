@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
 - name: install docker on docker servers
-  hosts: tags_docker
+  hosts: tags_docker,tags_cert_auth
 
   roles:
     - role: geerlingguy.docker
@@ -12,4 +12,11 @@
 
   roles:
     - role: netbox_docker
+  become: true
+
+- name: install ejbca docker container
+  hosts: tags_cert_auth
+
+  roles:
+    - role: ejbca_docker
   become: true
