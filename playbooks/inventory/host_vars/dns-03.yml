@@ -2,8 +2,7 @@
 bind9_config:
   zones:
     - name: dev.lab.lan
-      type: forward
-      role: primary
+      type: primary
       peer_ip:
         - 10.2.0.102
       mname: dns-03

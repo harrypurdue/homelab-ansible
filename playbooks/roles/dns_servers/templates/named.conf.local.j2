@@ -8,20 +8,44 @@
 
 {% for domain in bind9_config.zones %}
 zone "{{domain.name}}" {
-    	type {{domain.role}};
+{% if (domain.type == "primary") or (domain.type == "secondary") %}
+    	type {{domain.type}};
     	file "/etc/bind/db.{{domain.name}}";
-{% if domain.role == "primary" %}
+{% if domain.type == "primary" %}
 		notify yes;
 {% endif %}
 
-{% if domain.role == "primary" %}
+{% if domain.type == "primary" %}
 	allow-transfer {
-{% else %}
+{% elif domain.type == "secondary" %}
 	primaries {
 {% endif %}
 {% for host in domain.peer_ip %}
 		{{host}};
 {% endfor %}
 	};
+{% endif %}
+{% if domain.type == "forward" %}
+	type {{ domain.type }}
+	forwarders { 
+{% for name_server in name_servers %}
+		{{ name_server.ip_address }};
+{% endfor %}
+	};
+{% endif %}
 };
+{% if domain.sub_domains is defined %}
+{% for sub_domain in domain.sub_domains %}
+zone "{{ sub_domain.name }}" {
+	{% if sub_domain.type == "forward" %}
+	type {{ sub_domain.type }};
+	forwarders {
+	{% for name_server in sub_domain.name_servers %}
+		{{ name_server.ip_address }};
+	{% endfor %}
+	};
+	{% endif %}
+};
+{% endfor %}
+{% endif %}
 {% endfor %}

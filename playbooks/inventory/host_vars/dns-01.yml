@@ -2,8 +2,7 @@
 bind9_config:
   zones:
     - name: lab.lan
-      type: forward
-      role: primary
+      type: primary
       peer_ip:
         - 10.0.0.102
       sub_domains:
@@ -20,7 +19,9 @@ bind9_config:
       mname: dns-01
       name_servers:
         - name: dns-01
+          ip_address: 10.0.0.101
         - name: dns-02
+          ip_address: 10.0.0.102
   options:
     forwarders:
       - 8.8.8.8
