@@ -8,6 +8,7 @@
   ansible.builtin.package:
     name: zabbix-agent
     update_cache: true
+    state: latest
   become: true
   notify: restart zabbix agent
 
