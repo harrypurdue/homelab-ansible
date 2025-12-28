@@ -1,8 +1,5 @@
 ---
 plugin: community.proxmox.proxmox
-url: https://pve.lab.lan:8006
-user: api_user@pve
-password: "{{ lookup('ansible.builtin.env','PROXMOX_PASSWORD')}}"
 validate_certs: false
 want_facts: true
 keyed_groups:
