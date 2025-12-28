@@ -2,7 +2,7 @@
 # tasks file for roles/updates
 
 - name: proxmox snapshot
-  community.general.proxmox_snap:
+  community.proxmox.proxmox_snap:
     api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
     api_user: "{{ proxmox_user }}"
     api_password: "{{ proxmox_password }}"
@@ -20,7 +20,7 @@
       when: ansible_facts.os_family == 'Debian'
   rescue:
     - name: revert snapshot
-      community.general.proxmox_snap:
+      community.proxmox.proxmox_snap:
         api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
         api_user: "{{ proxmox_user }}"
         api_password: "{{ proxmox_password }}"
@@ -29,7 +29,7 @@
       delegate_to: localhost
   always:
     - name: remove snapshot
-      community.general.proxmox_snap:
+      community.proxmox.proxmox_snap:
         api_host: "{{ proxmox_host }}:{{ proxmox_port }}"
         api_user: "{{ proxmox_user }}"
         api_password: "{{ proxmox_password }}"
