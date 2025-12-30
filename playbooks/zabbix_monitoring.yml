@@ -5,6 +5,12 @@
   gather_facts: false
 
   tasks:
+
+    - name: create zabbix tags var
+      ansible.builtin.set_fact:
+        zabbix_tags: "{{ zabbix_tags | default([]) + [{ 'tag' : item }] }}"
+      loop: "{{ hostvars[inventory_hostname].tags }}"
+
     - name: set host information
       vars:
         ansible_network_os: community.zabbix.zabbix
@@ -21,5 +27,5 @@
         interfaces: "{{ zabbix_interfaces }}"
         link_templates: "{{ zabbix_link_templates | default(omit) }}"
         monitored_by: "{{ zabbix_monitored_by }}"
-        tags: "{{ zabbix_tags | default(omit) }}"
+        tags: "{{ zabbix_tags }}"
         state: present

@@ -7,5 +7,3 @@ zabbix_interfaces:
     useip: 1
     main: 1
 zabbix_monitored_by: zabbix_server
-zabbix_tags:
-  - tag: ansible_managed
