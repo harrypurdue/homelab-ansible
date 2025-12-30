@@ -22,6 +22,7 @@
         state: rollback
       delegate_to: localhost
   always:
+# todo: remove snapshot only if verification scripts pass
     - name: remove snapshot
       community.proxmox.proxmox_snap:
         hostname: "{{inventory_hostname}}"
