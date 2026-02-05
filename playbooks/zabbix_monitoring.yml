@@ -3,9 +3,10 @@
 - name: zabbix testing
   hosts: tags_ansible
   gather_facts: false
-
+  vars:
+    zabbix_host: "{{ lookup('ansible.builtin.env', 'ZABBIX_HOST')}}"
+  
   tasks:
-
     - name: create zabbix tags var
       ansible.builtin.set_fact:
         zabbix_tags: "{{ zabbix_tags | default([]) + [{ 'tag' : item }] }}"
@@ -18,7 +19,7 @@
         ansible_httpapi_port: 8080
         ansible_httpapi_use_ssl: false
         ansible_httpapi_validate_certs: false
-        ansible_host: zabbix-01.lab.lan
+        ansible_host: "{{ zabbix_host }}"
         ansible_zabbix_url_path: ""
       community.zabbix.zabbix_host:
         host_name: "{{ inventory_hostname }}"
