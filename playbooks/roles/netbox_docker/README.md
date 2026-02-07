@@ -1,38 +1,85 @@
-Role Name
+netbox_docker
 =========
 
-A brief description of the role goes here.
+Install netbox docker container.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Docker must already be installed onto the target host.
 
 Role Variables
 --------------
+
+default credentials for the container can be controlled using the following variables  
+```yaml
+default_admin_username: admin
+default_admin_email: admin@lab.lan
+default_admin_password: Defaultpassword1
+```
+install location
+```yaml
+install_directory: /usr/local/netbox_docker 
+```
+backing up the sql database of netbox can be controlled with the following variables
+```yaml
+netbox_docker_backup: false
+backup_file: db_dump.sql.gz
+backup_database_command: docker compose exec -T postgres sh -c 'pg_dump -cU $POSTGRES_USER $POSTGRES_DB' | gzip > {{ backup_file }}
+database_backup_location: ../backups/{{ ansible_hostname }}/{{ backup_file }}  
+```
+restoring the database
+```yaml
+netbox_docker_restore: false
+restore_database_command: gunzip -c {{ backup_file }} | docker compose exec -T postgres sh -c 'psql -U $POSTGRES_USER $POSTGRES_DB' 
+```
+update netbox
+```yaml
+update: false
+```
+other
+```yaml
+git_repo: https://github.com/netbox-community/netbox-docker.git
+``` 
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+By default the role will install netbox docker container
+`ansible-playbook example.yml`
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+backup netbox sql database
+`ansible-playbook example.yml -e "netbox_docker_backup=true"`
+
+restore netbox sql database
+`ansible-playbook example.yml -e "netbox_docker_restore=true"`
+
+update netbox
+`ansible-playbook example.yml -e "update=true"`
+
+```yaml
+  - name: install netbox docker container
+    hosts: tags_docker
+
+    roles:
+      - role: netbox_docker
+    become: true
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[Harry Purdue](https://github.com/harrypurdue)
+
