@@ -1,38 +1,50 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Installing a standard set of applications or packages onto machines.  
+
+There is a list of packages to be installed via the `packages` variable and the zabbix agent is installed based on the `zabbix_repo` variable.  
+
+TODO: zabbix_repo for different flavors of linux
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+packages is a list of package names to be installed by the local package manager  
+`packages`
+
+zabbix_repo is the URL of the .deb file for zabbix agent to install  
+`zabbix_repo`
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+---
+- name: standardized apps for all servers
+  hosts: tags_ansible
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+  roles:
+    - role: standard_apps
+```
+
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[Harry Purdue](https://github.com/harrypurdue)

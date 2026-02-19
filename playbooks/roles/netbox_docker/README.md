@@ -8,6 +8,8 @@ Requirements
 
 Docker must already be installed onto the target host.
 
+This role will install Docker onto the target host.
+
 Role Variables
 --------------
 

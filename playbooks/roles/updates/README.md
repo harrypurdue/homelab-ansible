@@ -1,38 +1,69 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Perform system updates to servers using the target hosts package manager.
+
+Snapshots with Proxmox are automatically taken and reverted if an error during the update process is encountered.
+
+Verification tasks are ran after updates have been completed.
+
+Currently only configured for Ubuntu.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Proxmox connectivity using the ansible community.proxmox.proxmox_snap module.
+It is recommended to set the following environment variables:
+PROXMOX_HOST  
+PROXMOX_PASSWORD  
+PROXMOX_USER  
+PROXMOX_URL  
+
+Recommended to have a seperate inventory source for proxmox and to specify the normal inventory source at the same time. See Example Playbook
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+None.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Copy the below into a file called `updates.yml` and run the playbook with  
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+`ansible-playbook updates.yml -l tags_dev`  
+
+After updates to the dev evnrionment have completed, then run updates for the production environment.  
+
+`ansible-playbook updates.yml -l tags_prod`  
+
+```yaml
+#!/usr/bin/env -S ansible-playbook -i inventory/netbox.yml -i inventory/proxmox.yml
+---
+- name: updates in dev
+  hosts: tags_dev
+
+  roles:
+    - role: updates
+
+- name: updates in prod
+  hosts: tags_prod
+
+  roles:
+    - role: updates
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[Harry Purdue](https://github.com/harrypurdue)
