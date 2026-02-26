@@ -2,12 +2,14 @@
 ---
 - name: updates in dev
   hosts: tags_dev
+  strategy: free
 
   roles:
     - role: updates
 
 - name: updates in prod
   hosts: tags_prod
+  strategy: free
 
   roles:
     - role: updates
