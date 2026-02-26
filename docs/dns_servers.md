@@ -1,4 +1,10 @@
-# dns servers
-install and configure bind9 onto dns servers  
+# DNS Servers
+There are four DNS servers. Two in `production` and two in `dev`. There are currently two DNS zones, `lab.lan` and `dev.lab.lan`.  
 
-configure dns records using netbox as the source  
+To install, and configure (including dns records) run the following playbook
+`./dns_servers.yml`
+
+Use the following tags to limit the action performed  
+`install`  
+`config`  
+`records`  

@@ -1,6 +1,8 @@
-# zabbix monitoring
-this playbook will add hosts from netbox to the monitoring system
+# Zabbix Monitoring
+To configure Zabbix with the hosts from Netbox run the following playbook.
 
-virtual machines in netbox which are tagged with `ansible` will be added to zabbix
+`./zabbix_monitoring.yml`  
 
-this playbook will not remove hosts
+Virtual machines in netbox which are tagged with `ansible` will be added to zabbix. The tags in Netbox will be copied to the host in Zabbix.
+
+This playbook does not remove hosts.
