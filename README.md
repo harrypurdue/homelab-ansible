@@ -1,11 +1,11 @@
-# ansible homelab
-this is my ansible environment that I use to manage my homelab
+# Ansible Homelab
+This is my ansible environment that I use to manage my homelab
 
-in order to run playbooks, change into the playbook folder  
+In order to run playbooks, change into the playbook folder  
 
 `cd playbooks`
 
-## environment
+## Environment
 ansible vault is used to store api keys and other sensitive information
 - ansible username
 - ansible password
@@ -23,7 +23,7 @@ other values are stored in environment variables
 - netbox token
 - zabbix host
 
-## docs
-for documentation related to specific playbooks see the [docs](docs/) folder  
+## Documentation
+For documentation related to specific playbooks see the [docs](docs/) folder  
 
-for documentation related to my roles see the readme at the root of each role folder
+Some roles have a readme associated with them in the roles folder. Over time, the documentation for these will be moved to the [docs](docs/) folder.
