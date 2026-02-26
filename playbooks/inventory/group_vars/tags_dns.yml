@@ -1,6 +1,0 @@
----
-verification: dns.yml
-zabbix_link_templates:
-  - ICMP Ping
-  - Linux by Zabbix agent
-  - dns server

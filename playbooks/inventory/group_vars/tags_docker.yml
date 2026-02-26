@@ -1,4 +1,0 @@
----
-verification: docker.yml
-docker_users:
-  - ansible
