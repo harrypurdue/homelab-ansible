@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: zabbix testing
+- name: zabbix monitoring
   hosts: tags_ansible
   gather_facts: false
   vars:
@@ -11,6 +11,15 @@
       ansible.builtin.set_fact:
         zabbix_tags: "{{ zabbix_tags | default([]) + [{ 'tag' : item }] }}"
       loop: "{{ hostvars[inventory_hostname].tags }}"
+
+    - name: set zabbix_interfaces
+      ansible.builtin.set_fact:
+        zabbix_interfaces:
+          - ip: "{{hostvars[inventory_hostname].ansible_host}}"
+            main: 1
+            type: agent
+            useip: 1
+      when: '"zabbix" not in hostvars[inventory_hostname].tags'
 
     - name: set host information
       vars:
