@@ -13,6 +13,11 @@ This role will install Docker onto the target host.
 Role Variables
 --------------
 
+install netbox onto docker server  
+```yaml
+netbox_docker: true
+```  
+
 default credentials for the container can be controlled using the following variables  
 ```yaml
 default_admin_username: admin
