@@ -1,5 +1,0 @@
----
-- name: Radius Service Verification
-  ansible.builtin.systemd_service:
-    name: freeradius.service
-    state: started
