@@ -3,7 +3,7 @@ There are multiple docker servers in the homelab.
 
 There are currently two different applications hosted by the docker servers
 
-`netbox`  
+[Netbox](netbox_docker.md)  
 `ejbca`  
 
 All servers that are in the `docker` or `cert_auth` groups will have docker installed.

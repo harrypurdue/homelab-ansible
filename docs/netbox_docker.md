@@ -1,17 +1,10 @@
-netbox_docker
-=========
+# Netbox Docker Instance
+Netbox is currently running in a Docker container. Netbox is installed using my `netbox_docker` role.  
 
-Install netbox docker container.
+## Role
+The role does not install Docker and it assumes it is already installed.  
 
-Requirements
-------------
-
-Docker must already be installed onto the target host.
-
-This role will install Docker onto the target host.
-
-Role Variables
---------------
+There are various variables available for the `netbox_docker` role.  
 
 install netbox onto docker server  
 ```yaml
@@ -49,28 +42,7 @@ other
 git_repo: https://github.com/netbox-community/netbox-docker.git
 ``` 
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-None.
-
-Example Playbook
-----------------
-
-By default the role will install netbox docker container
-`ansible-playbook example.yml`
-
-backup netbox sql database
-`ansible-playbook example.yml -e "netbox_docker_backup=true"`
-
-restore netbox sql database
-`ansible-playbook example.yml -e "netbox_docker_restore=true"`
-
-update netbox
-`ansible-playbook example.yml -e "update=true"`
-
+## Examples
 ```yaml
   - name: install netbox docker container
     hosts: tags_docker
@@ -80,13 +52,9 @@ update netbox
     become: true
 ```
 
-License
--------
+The role will not install, backup, restore, or update the netbox instance unless the variables are set. 
 
-MIT
+Netbox is used as a source for Ansible and I do not set any of the Netbox install, backup, update, or restore variables.  
 
-Author Information
-------------------
-
-[Harry Purdue](https://github.com/harrypurdue)
-
+To install Netbox:  
+`ansible-playbook example.yml -e "netbox_docker=true"`  
