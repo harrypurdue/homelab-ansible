@@ -69,7 +69,7 @@
     
 # i had trouble with configuring the vm in the same task as cloning it
 # my solution is to clone it in one task and configure it in another one
-    - name: config test
+    - name: configure virtual machine
       community.proxmox.proxmox_kvm:
         vmid: "{{ cloned_vm.vmid }}"
         # name: "{{ vm_name }}"
@@ -84,7 +84,7 @@
         update_unsafe: true
         # state: started
         
-    # attempting to start the vm in the config task results in the confgiruation not applying
+    # attempting to start the vm in the config task results in the configruation not applying
     - name: start vm
       community.proxmox.proxmox_kvm:
         vmid: "{{ cloned_vm.vmid }}"
