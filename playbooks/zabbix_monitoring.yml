@@ -32,7 +32,7 @@
         ansible_zabbix_url_path: ""
       community.zabbix.zabbix_host:
         host_name: "{{ inventory_hostname }}"
-        host_groups: "{{ zabbix_host_groups | default(omit) }}"
+        host_groups: "{{ zabbix_host_groups | default('virtual machines') }}"
         description: "{{ zabbix_description | default(omit) }}"
         interfaces: "{{ zabbix_interfaces }}"
         link_templates: "{{ zabbix_link_templates | default(omit) }}"
