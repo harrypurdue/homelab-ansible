@@ -1,0 +1,91 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: netbox virtual machine setup
+  hosts: localhost
+  gather_facts: false
+  vars:
+    netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
+    netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"
+  
+  tasks:
+    - name: netbox vm
+      netbox.netbox.netbox_virtual_machine:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ vm_name }}"
+          # primary_ip4: "{{ ip_info.ip_address }}" # cant do this here
+          cluster: "homelab"
+          platform: "{{ netbox_platform }}"
+          tags: "{{ netbox_tags }}"
+        state: present
+    
+    # have to create vm interface to then assign the ip address
+    - name: netbox vm interface
+      netbox.netbox.netbox_vm_interface:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "primary"
+          virtual_machine: "{{ vm_name }}"
+        state: present
+    
+    # ip address has to be created before it can be assigned to virtual machine
+    - name: netbox vm ip_address
+      netbox.netbox.netbox_ip_address:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          address: "{{ ip_info.ip_address }}"
+          assigned_object:
+            virtual_machine: "{{ vm_name }}"
+          dns_name: "{{ vm_name }}.lab.lan"
+        state: present
+    
+    # can't assign primary ip to virtual machine until the ip address is created
+    - name: netbox primary_ip4
+      netbox.netbox.netbox_virtual_machine:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ vm_name }}"
+          primary_ip4: "{{ ip_info.ip_address }}"
+          
+- name: proxmox virtual machine deployment
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: clone template
+      community.proxmox.proxmox_kvm:
+        # vmid: 9000
+        name: "{{ vm_name }}"
+        clone: "{{ clone }}"
+        node: pve
+        state: present
+        update_unsafe: true
+      register: cloned_vm
+    
+# i had trouble with configuring the vm in the same task as cloning it
+# my solution is to clone it in one task and configure it in another one
+    - name: config test
+      community.proxmox.proxmox_kvm:
+        vmid: "{{ cloned_vm.vmid }}"
+        # name: "{{ vm_name }}"
+        node: pve
+        ipconfig:
+          ipconfig0: "ip={{ ip_info.ip_address }},gw={{ ip_info.gateway }}"
+        nameservers: "{{ ip_info.nameservers }}"
+        net:
+          net0: 'virtio,bridge={{ip_info.bridge}}'
+        searchdomains: "{{ ip_info.searchdomains }}"
+        update: true
+        update_unsafe: true
+        # state: started
+        
+    # attempting to start the vm in the config task results in the confgiruation not applying
+    - name: start vm
+      community.proxmox.proxmox_kvm:
+        vmid: "{{ cloned_vm.vmid }}"
+        state: started

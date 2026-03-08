@@ -1,0 +1,44 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: virtual machine destroy
+  hosts: localhost
+  gather_facts: false
+  vars:
+    netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
+    netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"
+    zabbix_host: "{{ lookup('ansible.builtin.env', 'ZABBIX_HOST')}}"
+  
+  tasks:
+    - name: virtual machine shutdown
+      community.proxmox.proxmox_kvm:
+        name: "{{ vm_name }}"
+        node: pve
+        state: stopped
+
+    - name: virtual machine destroy
+      community.proxmox.proxmox_kvm:
+        name: "{{ vm_name }}"
+        node: pve
+        state: absent
+
+    - name: netbox virtual machine remove
+      netbox.netbox.netbox_virtual_machine:
+          netbox_url: "{{ netbox_url }}"
+          netbox_token: "{{ netbox_token }}"
+          data:
+            name: "{{ vm_name }}"
+          state: absent
+
+    - name: remove from zabbix
+      vars:
+        ansible_network_os: community.zabbix.zabbix
+        ansible_connection: httpapi
+        ansible_httpapi_port: 8080
+        ansible_httpapi_use_ssl: false
+        ansible_httpapi_validate_certs: false
+        ansible_host: "{{ zabbix_host }}"
+        ansible_zabbix_url_path: ""
+      community.zabbix.zabbix_host:
+        host_name: "{{ vm_name }}"
+        state: absent
