@@ -15,6 +15,11 @@
 
     - include_tasks: reboot_ubuntu.yml
       when: ansible_facts.os_family == 'Debian'
+
+    - include_tasks: verification/base_verification.yml
+
+    - include_tasks: "verification/{{ verification }}"
+      when: verification is defined
   rescue:
     - name: revert snapshot
       community.proxmox.proxmox_snap:
@@ -22,16 +27,8 @@
         state: rollback
       delegate_to: localhost
   always:
-# todo: remove snapshot only if verification scripts pass
     - name: remove snapshot
       community.proxmox.proxmox_snap:
         hostname: "{{inventory_hostname}}"
         state: absent
       delegate_to: localhost
-
-- name: verification scripts
-  block:
-    - include_tasks: verification/base_verification.yml
-
-    - include_tasks: "verification/{{ verification }}"
-      when: verification is defined
