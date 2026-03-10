@@ -1,0 +1,3 @@
+---
+default_groups: adm, sudo
+sshd: ssh

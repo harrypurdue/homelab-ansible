@@ -4,5 +4,6 @@
   hosts: tags_ansible
 
   roles:
-    - role: standard_apps
     - role: standard_configs
+    - role: standard_apps
+

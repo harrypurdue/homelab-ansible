@@ -4,7 +4,7 @@
     name: ansible
     state: present
     password: "{{ ansible_local_user_pass }}"
-    groups: adm, sudo
+    groups: "{{ default_groups }}"
     append: false
     shell: /bin/bash
   become: true
@@ -14,6 +14,6 @@
     name: harry
     state: present
     password: "{{ harry_local_user_pass }}"
-    groups: adm, sudo
+    groups: "{{ default_groups }}"
     shell: /bin/bash
   become: true

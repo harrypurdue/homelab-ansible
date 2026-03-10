@@ -1,0 +1,5 @@
+---
+- name: zabbix deb file containing repo
+  ansible.builtin.package:
+    deb: "{{ zabbix_repo }}"
+  become: true
