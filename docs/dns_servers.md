@@ -1,5 +1,5 @@
 # DNS Servers
-There are four DNS servers. Two in `production` and two in `dev`. There are currently two DNS zones, `lab.lan` and `dev.lab.lan`.  
+There are two DNS servers.  
 
 To install, and configure (including dns records) run the following playbook
 `./dns_servers.yml`

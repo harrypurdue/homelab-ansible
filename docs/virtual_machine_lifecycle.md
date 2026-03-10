@@ -62,3 +62,5 @@ The name of the virtual machine must be defined.
 This playbook does not handle the following:
 - DNS records
 
+## References
+[Proxmox Cloud Init](https://pve.proxmox.com/wiki/Cloud-Init_Support)  
