@@ -1,19 +1,11 @@
 ---
 - name: ansible user
   ansible.builtin.user:
-    name: ansible
+    name: "{{ item.name }}"
     state: present
-    password: "{{ ansible_local_user_pass }}"
+    password: "{{ item.password }}"
     groups: "{{ default_groups }}"
     append: false
     shell: /bin/bash
   become: true
-
-- name: my personal user
-  ansible.builtin.user:
-    name: harry
-    state: present
-    password: "{{ harry_local_user_pass }}"
-    groups: "{{ default_groups }}"
-    shell: /bin/bash
-  become: true
+  with_items: "{{ users }}"
