@@ -3,7 +3,7 @@
   ansible.builtin.user:
     name: "{{ item.name }}"
     state: present
-    password: "{{ item.password }}"
+    password: "{{ vars[item.name + '_local_user_pass'] }}"
     groups: "{{ default_groups }}"
     append: false
     shell: /bin/bash
