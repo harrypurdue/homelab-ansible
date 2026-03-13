@@ -69,5 +69,20 @@ The name of the virtual machine must be defined.
 This playbook does not handle the following:
 - DNS records
 
+## Creating Virtual Machine Template
+Virtual machine templates are created using the cloud image from the distribution.  
+
+The image file is downloaded onto the proxmox server and then the script `scripts/new_proxmox_vm_image.sh` is ran.  
+
+The `new_proxmox_vm_image.sh` script accepts three arguments.
+- full path to the image file
+- vmid
+- name of template (match platform in netbox)
+
+After the creation of the template, the following needs to be configured.
+- platform in netbox
+- config contexts for platform in netbox
+- ssh key for template in cloud-init
+
 ## References
 [Proxmox Cloud Init](https://pve.proxmox.com/wiki/Cloud-Init_Support)  
