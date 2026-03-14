@@ -7,13 +7,6 @@
     - role: geerlingguy.docker
   become: true
 
-- name: install netbox docker container
-  hosts: tags_docker
-
-  roles:
-    - role: netbox_docker
-  become: true
-
 - name: install ejbca docker container
   hosts: tags_cert_auth
 

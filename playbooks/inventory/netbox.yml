@@ -1,6 +1,6 @@
 ---
 plugin: netbox.netbox.nb_inventory
-validate_certs: false
+validate_certs: true
 group_by:
   - tags
   - platforms
