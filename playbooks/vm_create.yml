@@ -23,7 +23,7 @@
 
     - name: set fqdn
       ansible.builtin.set_fact:
-        fqdn: "{{ vm_name | first }}.{{ searchdomains | first }}"
+        fqdn: "{{ vm_name }}.{{ searchdomains | first }}"
 
     - name: netbox vm
       netbox.netbox.netbox_virtual_machine:
