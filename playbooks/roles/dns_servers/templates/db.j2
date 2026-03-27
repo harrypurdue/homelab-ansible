@@ -22,27 +22,14 @@ $ORIGIN {{ zone.name }}. ; base domain-name
        	IN  	NS  	{{ ns.name }}.{{ zone.name }}.
 {% endfor %}
 
-{% for record in domains[zone.name]%}
-{% if record.type == "CAA" %}
-{{record.name}} IN {{record.type}} 0 issue "{{record.value}}"
+{% for record in domains[zone.name] %}
+{% set type = domains[zone.name][record].type %}
+{% set value = domains[zone.name][record].value %}
+{% set name = record %}
+{% if type == "CAA" %}
+{{ name }} IN CAA 0 issue "{{ value }}"
 {% else %}
-{{record.name}} IN {{record.type}} {{record.value}}
+{{ name }} IN {{ type }} {{ value }}
 {% endif %}
 {% endfor %}
-{#
-{% if zone.sub_domains is defined%}
-{% for sub_domain in zone.sub_domains %}
-$ORIGIN {{ sub_domain.name }}.
-{% for ns in sub_domain.name_servers %}
-@       	IN  	NS  	{{ ns.name }}.{{ sub_domain.name }}.
-{% endfor %}
-{% for record in domains[sub_domain.name]%}
-{% if record.type == "CAA" %}
-{{record.name}} IN {{record.type}} 0 issue "{{record.value}}"
-{% else %}
-{{record.name}} IN {{record.type}} {{record.value}}
-{% endif %}
-{% endfor %}
-{% endfor %}
-{% endif %}#}
 {% endfor %}
