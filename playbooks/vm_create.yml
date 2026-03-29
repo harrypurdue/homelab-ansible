@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: netbox testing
+- name: create virtual machine
   hosts: localhost
   gather_facts: false
   vars:
