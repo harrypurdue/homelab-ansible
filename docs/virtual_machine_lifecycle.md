@@ -10,6 +10,7 @@ This playbook will:
 - Create the virtual machine in Netbox
 - Create the virtual machine in Proxmox by cloning an existing template
 - Start the VM
+- Update the netbox configuration context for DNS records to include the hostname
 
 This playbook can be ran without additional variables. The name of the virtual machine is generated automatically if not specified. The IP address is pulled from the IPAM in netbox.
 
@@ -51,10 +52,14 @@ Virtual machines are created from templates already created on the Proxmox host.
 `cloud-init upgrade packages - yes`  
 
 This playbook does not handle the following:
-- DNS records
+- Pushing DNS records to DNS servers
 - [Zabbix monitoring](zabbix_monitoring.md)
 - [Standard Configurations](standard_configurations.md)
  
+After this playbook is ran, it is recommended to run the following playbooks:  
+- dns_servers.yml
+- zabbix_monitoring.yml
+- standard_configurations.yml
 
 ## Destroy
 
@@ -67,7 +72,10 @@ The name of the virtual machine must be defined.
 `./vm_destroy.yml -e "vm_name=test-01"`  
 
 This playbook does not handle the following:
-- DNS records
+- Pushing (removing) DNS records to DNS servers
+
+After this playbook is ran, it is recommended to run the following playbooks:  
+- dns_servers.yml
 
 ## Creating Virtual Machine Template
 Virtual machine templates are created using the cloud image from the distribution.  

@@ -6,6 +6,8 @@
   vars:
     netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"    
+    scripts_dir: "{{ playbook_dir }}/scripts"
+    py_script: "{{ scripts_dir }}/dns_records.py"
   
   tasks:
     # the set rand_vm_name and set vm_name tasks allows the vm_name to be specified by 
@@ -100,3 +102,16 @@
       community.proxmox.proxmox_kvm:
         vmid: "{{ cloned_vm.vmid }}"
         state: started
+
+    # this seems a bit hacky to me, but its the best idea i have at the moment
+    - name: setup virtual environment
+      ansible.builtin.pip:
+        name: pynetbox
+        virtualenv: "{{ scripts_dir }}/venv"
+        virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
+      become: true
+      become_user: harry
+      register: venv
+    
+    - name: add host to dns configuration context in netbox
+      ansible.builtin.shell: "{{ venv.virtualenv }}/bin/python {{ py_script }} add {{ vm_name }} {{ new_ip.ip_address.address |  ansible.utils.ipaddr('address') }}"

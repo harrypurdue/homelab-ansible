@@ -8,6 +8,8 @@
     netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"
     zabbix_host: "{{ lookup('ansible.builtin.env', 'ZABBIX_HOST')}}"
+    scripts_dir: "{{ playbook_dir }}/scripts"
+    py_script: "{{ scripts_dir }}/dns_records.py"
   
   tasks:
     - name: virtual machine shutdown
@@ -15,6 +17,9 @@
         name: "{{ vm_name }}"
         node: pve
         state: stopped
+      register: result
+      until: "'timeout' not in result.msg"
+      retries: 3
 
     - name: virtual machine destroy
       community.proxmox.proxmox_kvm:
@@ -42,3 +47,16 @@
       community.zabbix.zabbix_host:
         host_name: "{{ vm_name }}"
         state: absent
+
+    # this seems a bit hacky to me, but its the best idea i have at the moment
+    - name: setup virtual environment
+      ansible.builtin.pip:
+        name: pynetbox
+        virtualenv: "{{ scripts_dir }}/venv"
+        virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
+      become: true
+      become_user: harry
+      register: venv
+    
+    - name: delete host from the dns configuration context in netbox
+      ansible.builtin.shell: "{{ venv.virtualenv }}/bin/python {{ py_script }} del {{ vm_name }}"
