@@ -10,6 +10,7 @@
     zabbix_host: "{{ lookup('ansible.builtin.env', 'ZABBIX_HOST')}}"
     scripts_dir: "{{ playbook_dir }}/scripts"
     py_script: "{{ scripts_dir }}/dns_records.py"
+    domain_name: "lab.lan"
   
   tasks:
     - name: virtual machine shutdown
@@ -48,15 +49,27 @@
         host_name: "{{ vm_name }}"
         state: absent
 
-    # this seems a bit hacky to me, but its the best idea i have at the moment
-    - name: setup virtual environment
-      ansible.builtin.pip:
-        name: pynetbox
-        virtualenv: "{{ scripts_dir }}/venv"
-        virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
-      become: true
-      become_user: harry
-      register: venv
-    
-    - name: delete host from the dns configuration context in netbox
-      ansible.builtin.shell: "{{ venv.virtualenv }}/bin/python {{ py_script }} del {{ vm_name }}"
+    - name: get config context
+      netbox.netbox.netbox_config_context:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "dns_records"
+          data:
+        state: present
+      register: config_context
+
+    - name: deleting {{ vm_name }} from {{ domain_name }}
+      ansible.builtin.set_fact:
+        new_config_context: "{{ config_context.config_context.data | ansible.utils.remove_keys([vm_name]) }}"
+      when: config_context.config_context.data.domains[domain_name][vm_name] is defined
+
+    - name: get config context
+      netbox.netbox.netbox_config_context:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "dns_records"
+          data: "{{ new_config_context }}"
+        state: present
+      register: config_context
