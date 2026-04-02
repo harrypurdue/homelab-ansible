@@ -2,6 +2,7 @@
 ---
 - name: standardized apps and configurations for all servers
   hosts: tags_ansible
+  strategy: free
 
   roles:
     - role: standard_configs
