@@ -8,8 +8,6 @@
     netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"
     zabbix_host: "{{ lookup('ansible.builtin.env', 'ZABBIX_HOST')}}"
-    scripts_dir: "{{ playbook_dir }}/scripts"
-    py_script: "{{ scripts_dir }}/dns_records.py"
     domain_name: "lab.lan"
   
   tasks:

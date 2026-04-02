@@ -6,8 +6,6 @@
   vars:
     netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"    
-    scripts_dir: "{{ playbook_dir }}/scripts"
-    py_script: "{{ scripts_dir }}/dns_records.py"
     domain_name: "lab.lan"
   
   tasks:
@@ -135,13 +133,13 @@
         current_hosts: "{{ config_context.config_context.data.domains[domain_name] | combine(temp_host_dict) }}"
   
     - name: create temp list for {{ domain_name }}
-      set_fact:
+      ansible.builtin.set_fact:
         temp_dict_1:
           - key: "{{ domain_name }}"
             value: "{{ current_hosts }}"
 
     - name: create dict from list for {{ domain_name }}
-      set_fact:
+      ansible.builtin.set_fact:
         temp_dict_1: "{{ temp_dict_1 | items2dict}}"
 
     - name: create final_config_context
