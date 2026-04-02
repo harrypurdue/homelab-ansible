@@ -1,0 +1,10 @@
+---
+- name: verify netbox services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}.service"
+    state: started
+  with_items:
+    - netbox
+    - nginx
+    - postgresql
+    - redis-server
