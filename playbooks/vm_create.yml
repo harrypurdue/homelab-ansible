@@ -14,7 +14,7 @@
     # | first on query() returns the first character even though it is a list when assigned to the variable
     - name: set rand_vm_name
       ansible.builtin.set_fact:
-        rand_vm_name: "{{ query('community.general.random_string', upper=false, special=false, length = 15) }}"
+        rand_vm_name: "{{ query('community.general.random_string', upper=false, special=false, ignore_similar_chars=true, length = 15) }}"
       when: vm_name is not defined
 
     - name: set vm_name
