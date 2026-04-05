@@ -6,9 +6,13 @@
   vars:
     netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API')}}"
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN')}}"    
-    domain_name: "lab.lan"
   
   tasks:
+    - name: checking netbox_tags
+      ansible.builtin.fail:
+        msg: "prod and dev can't both be in netbox_tags"
+      when: "'prod' in netbox_tags and 'dev' in netbox_tags"
+
     # the set rand_vm_name and set vm_name tasks allows the vm_name to be specified by 
     # command line -e argument if a non random name is required
     # | first on query() returns the first character even though it is a list when assigned to the variable
@@ -22,9 +26,19 @@
         vm_name: "{{ rand_vm_name[0] }}"
       when: vm_name is not defined
 
+    - name: set domain name
+      ansible.builtin.set_fact:
+        domain_name: "{{ searchdomains | first }}"
+      
     - name: set fqdn
       ansible.builtin.set_fact:
-        fqdn: "{{ vm_name }}.{{ searchdomains | first }}"
+        fqdn: "{{ vm_name }}.{{ domain_name }}"
+
+    - name: set prefix based on netbox_tags
+      ansible.builtin.set_fact:
+        prefix: "{{ item.value }}"
+      loop: "{{ tags_to_prefix | dict2items }}"
+      when: item.key in netbox_tags
 
     - name: netbox vm
       netbox.netbox.netbox_virtual_machine:
@@ -155,3 +169,10 @@
           data: "{{ final_config_context }}"
         state: present
       register: result
+
+    - name: host information
+      ansible.builtin.debug:
+        msg: >
+          name: {{ fqdn }}
+          ip address: {{ new_ip.ip_address.address }}
+          platform: {{ netbox_platform }}
