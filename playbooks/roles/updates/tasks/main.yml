@@ -1,5 +1,15 @@
 ---
 # tasks file for roles/updates
+- name: load os-specific vars
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ansible_facts.distribution}}.yml"
+        - "{{ansible_facts.os_family}}.yml"
+        - main.yml
+      paths:
+        - "vars"
 
 - name: proxmox snapshot
   community.proxmox.proxmox_snap:
@@ -8,13 +18,11 @@
     vmstate: true
   delegate_to: localhost
 
-- name: update ubuntu
+- name: update
   block:
-    - include_tasks: update_ubuntu.yml
-      when: ansible_facts.os_family == 'Debian'
+    - include_tasks: update.yml
 
-    - include_tasks: reboot_ubuntu.yml
-      when: ansible_facts.os_family == 'Debian'
+    - include_tasks: reboot_{{ ansible_facts.os_family }}.yml
 
     - include_tasks: verification/base_verification.yml
 
