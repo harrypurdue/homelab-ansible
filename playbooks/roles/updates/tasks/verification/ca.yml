@@ -1,3 +1,8 @@
 ---
 - name: CA Service Verification (Docker)
   include_tasks: docker.yml
+
+- name: checking certificate authority docker containers
+  community.docker.docker_compose_v2:
+    project_src: /usr/local/ejbca_docker
+  become: true
