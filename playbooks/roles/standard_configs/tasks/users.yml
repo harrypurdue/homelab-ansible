@@ -9,3 +9,4 @@
     shell: /bin/bash
   become: true
   with_items: "{{ users }}"
+  no_log: true
