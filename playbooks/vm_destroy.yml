@@ -74,5 +74,5 @@
 
     - name: remove key from known_hosts
       ansible.builtin.known_hosts:
-        name: "{{vm_name}}"
+        name: "{{ vm_name }}.{{ domain_name }}"
         state: absent
