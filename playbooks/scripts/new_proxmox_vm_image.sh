@@ -34,4 +34,6 @@ qm set $VMID --serial0 socket --vga serial0
 
 qm set $VMID --ciuser ansible
 
+qm set $VMID --sshkeys /root/public-ansible
+
 qm template $VMID
