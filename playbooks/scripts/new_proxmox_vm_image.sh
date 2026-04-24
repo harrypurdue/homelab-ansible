@@ -36,4 +36,6 @@ qm set $VMID --ciuser ansible
 
 qm set $VMID --sshkeys /root/public-ansible
 
+qm set $VMID --ciupgrade 0
+
 qm template $VMID
