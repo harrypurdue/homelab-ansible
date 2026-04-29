@@ -8,3 +8,9 @@ config_context: true
 flatten_config_context: true
 compose:
   last_updated: last_updated
+rename_variables:
+# https://github.com/netbox-community/ansible_modules/issues/1272
+  - pattern: tags
+    repl: nb_tags
+  - pattern: serial
+    repl: nb_serial
