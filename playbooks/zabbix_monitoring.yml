@@ -10,7 +10,7 @@
     - name: create zabbix tags var
       ansible.builtin.set_fact:
         zabbix_tags: "{{ zabbix_tags | default([]) + [{ 'tag' : item }] }}"
-      loop: "{{ hostvars[inventory_hostname].tags }}"
+      loop: "{{ hostvars[inventory_hostname].nb_tags }}"
 
     - name: set zabbix_interfaces
       ansible.builtin.set_fact:
@@ -19,7 +19,7 @@
             main: 1
             type: agent
             useip: 1
-      when: '"zabbix" not in hostvars[inventory_hostname].tags'
+      when: '"zabbix" not in hostvars[inventory_hostname].nb_tags'
 
     - name: set host information
       vars:
