@@ -1,0 +1,20 @@
+---
+- name: copy 20auto-upgrades file
+  ansible.builtin.template:
+    dest: "{{ auto_upgrades_file }}"
+    src: 20auto-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  become: true
+
+- name: copy 50unattended-upgrades file
+  ansible.builtin.template:
+    dest: "{{ unattended_upgrade_file }}"
+    src: 50unattended-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  become: true

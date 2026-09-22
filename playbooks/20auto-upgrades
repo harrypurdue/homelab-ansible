@@ -1,0 +1,2 @@
+APT::Periodic::Update-Package-Lists "{{ update_package_lists }}";
+APT::Periodic::Unattended-Upgrade "{{ unattended_upgrade }}";

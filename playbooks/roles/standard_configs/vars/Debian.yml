@@ -1,3 +1,5 @@
 ---
 default_groups: adm, sudo
 sshd: ssh
+unattended_upgrade_file: /etc/apt/apt.conf.d/50unattended-upgrades
+auto_upgrades_file: /etc/apt/apt.conf.d/20auto-upgrades
