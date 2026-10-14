@@ -16,3 +16,5 @@
 - include_tasks: rsa_keys.yml
 - include_tasks: ssh.yml
 - include_tasks: auto_update.yml
+- include_tasks: rsyslog.yml
+  when: '"tags_syslog" not in group_names'

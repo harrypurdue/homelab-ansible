@@ -1,0 +1,30 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: syslog server configuration
+  gather_facts: false
+  hosts: syslog-01
+
+  tasks:
+    - name: rsyslog config file
+      ansible.builtin.template:
+        dest: /etc/rsyslog.conf
+        src: rsyslog.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+        
+    - name: restart rsyslog
+      ansible.builtin.systemd_service:
+        name: rsyslog
+        state: restarted
+      become: true
+
+    - name: log rotate
+      ansible.builtin.template:
+        dest: /etc/logrotate.d/remote_logs
+        src: rsyslog_logrotate
+        owner: root
+        group: root
+        mode: '0644'
+      become: true

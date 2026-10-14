@@ -1,0 +1,10 @@
+---
+- name: copy rsyslog destination configuration file
+  ansible.builtin.template:
+    src: syslog_dest.conf
+    dest: /etc/rsyslog.d/syslog_dest.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart rsyslog
+  become: true
