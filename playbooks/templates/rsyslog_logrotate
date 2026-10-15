@@ -1,4 +1,4 @@
-/var/log/remote_logs {
+/var/log/remote_logs/* {
     weekly
     rotate 4
     compress
